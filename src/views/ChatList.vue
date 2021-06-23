@@ -1,17 +1,23 @@
 <template>
   <div class="page-chat-list max-width">
-    <div class="search-bar">
-    <v-icon
-      color="black"
-      class="mt-1 mb-1"
-    >mdi-account-search-outline</v-icon>
-    <input class="search-input mt-1 mb-1 ml-1" placeholder="搜尋配對對象姓名" v-model="searchString">
-    <v-icon
-      v-show="searchString != ''"
-      @click= "searchString = ''"
-      color="black"
-      class="mt-1 mb-1"
-    >mdi-window-close</v-icon>
+    <div style="box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);">
+      <div class="mt-16 d-flex justify-center"><div class="fw-semi-bold fs-20">對話</div></div>
+      <div class="search-bar d-flex align-center mt-2 mb-4 mx-10">
+        <div class="mr-3">
+          <v-img
+            :src="require('../assets/img/search.svg')"
+            height="16"
+            width="16"
+          />
+        </div>
+        <input class="search-input my-2" placeholder="搜尋已配對對象" v-model="searchString">
+        <v-icon
+          v-show="searchString != ''"
+          @click= "searchString = ''"
+          color="black"
+          class="mt-1 mb-1"
+        >mdi-window-close</v-icon>    
+      </div>
     </div>
     <div class="pa-0" style="overflow-x:hidden">
           <v-card
@@ -102,16 +108,17 @@ export default {
 </script>
 <style>
 .search-bar{
-  background: #D1D0D0;
+  background: #FFFFFF;
   border-radius: 16px;
-  padding:0px 20px;
-  margin:20px 32px;
+  border: 1px solid #D6D5D1;
+  padding:0px 12px;
 }
 input:focus{
   outline: 0px;
 }
 .search-input{
-  line-height: 24px;
+  line-height: 16px;
+  font-size: 12px;
   vertical-align: middle;
   width:230px;
 }
@@ -154,5 +161,6 @@ input:focus{
   display: grid;
   height: 100vh;
   grid-template-rows: auto 1fr auto;
+  gap:1px;
 }
 </style>

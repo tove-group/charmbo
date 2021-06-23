@@ -22,5 +22,7 @@
 .fw-bold{ font-weight:700; }
 .fw-extra-bold{ font-weight:800; }
 .fw-black { font-weight:900; }
+/*font-size*/
+.fs-20{ font-size:20px; }
 .po-relative { position: relative; }
 .po-absolute { position: absolute; }
