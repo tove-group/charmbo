@@ -100,6 +100,15 @@ export default new Vuex.Store({
         },
         setUserPinState(state,data){
             state.chatRoom.find(chatUser=> chatUser._id == data.id).pinned = data.pinned;
+            state.chatRoom.sort((a,b) => {
+                if(a.pinned && !b.pinned) return -1;
+                if(!a.pinned && b.pinned) return 1;
+                if(a.message.length == 0) return 1;
+                if(b.message.length == 0) return -1;
+                let aDate = new Date(a.message[a.message.length - 1].createdAt);
+                let bDate = new Date(b.message[b.message.length - 1].createdAt);
+                return bDate - aDate;
+            });
         },
         saveOnlineStatus(state,data) {
             //console.log(data);
