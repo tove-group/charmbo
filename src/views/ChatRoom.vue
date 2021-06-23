@@ -1,5 +1,5 @@
 <template>
-  <div class="page-chatroom max-width message-container">
+  <div class="page-chatroom max-width message-container charmbo-bgcolor-gray">
     <div v-if="showScrollBtn" class="scroll-btn">
       <v-icon
           size="40"
@@ -7,7 +7,11 @@
           >mdi-arrow-down-bold-circle
       </v-icon>
     </div>
-    <div><v-toolbar flat>
+    <div>
+      <v-toolbar 
+        height=80
+        class="header-shadow"
+        >
             <v-icon
               large
               class="mr-5"
@@ -29,9 +33,10 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <option-dialog v-if="!isCharmboRoom" @sentReport="sentReport" ref="optionDialog"></option-dialog>
-    </v-toolbar></div>
+      </v-toolbar>
+    </div>
     <div style="overflow-y: scroll;" id="messageContainer" @click="showEmoji = false">
-      <v-card flat class="d-flex flex-column pt-3">
+      <v-card color="#FAF9F7" flat class="d-flex flex-column pt-3">
               <v-btn v-if="storeReceiver.message && storeReceiver.message.length==0 && !isCharmboRoom" text color="#7E7E7E" class="mb-5">
                 向對方打聲招呼~
               </v-btn>
@@ -46,20 +51,20 @@
               </infinite-loading>
               <div v-for="(item, index) in storeReceiver.message" :key="item.id">
                 <div
-                  class="date mb-5"
+                  class="mb-3 d-flex justify-center"
                   v-if="
                     index == 0 ||
                       datesAreNotSameDay(
                         storeReceiver.message[index - 1].createdAt,
                         item.createdAt
-                      )
-                  "
-                >
-                  {{ dayFormate(item.createdAt) }}
+                      )">
+                  <div class="date">
+                    {{ dayFormate(item.createdAt) }}
+                  </div>
                 </div>
                 <ul class="px-4">
                   <li
-                    class="d-flex align-center mb-5"
+                    class="d-flex align-center mb-3"
                     :class="{ reverse: !isReceiver(item.receiver) }"
                   >
                     <div
@@ -134,20 +139,25 @@
       </v-card>
     </div>
     <div v-if="!isCharmboRoom" class="flex-grow-0 tool-bar">
-      <div class="tool-emoji py-5 pl-2">
-        <v-icon @click="showEmoji = !showEmoji">
-          mdi-sticker-emoji
-        </v-icon>
+      <div class="tool-emoji py-5 pl-5 pr-2">
+        <v-img
+          @click="showEmoji = !showEmoji"
+          :src="require('../assets/img/chatroom/emoji.svg')"
+          height="28"
+          width="28"
+        />
       </div>
-      <div class="tool-photo py-5">
+      <div class="tool-photo py-5 px-2">
         <v-file-input
-          class="my-0 py-0 px-3"
+          class="my-0 py-0 "
           @change="sendImages()"
           accept="image/png, image/jpeg, image/bmp"
           prepend-icon="mdi-image"
           v-model="images"
+          height="28"
           hide-input
-        ></v-file-input>
+        >
+        </v-file-input>
       </div>
       <div class="tool-text py-5"><input
                   @focus="startTyping"
@@ -157,19 +167,19 @@
                   @keydown.stop.prevent.enter="send"
                   id="input"
                   v-model="msg.content"
-                  placeholder="說一些話......"
+                  placeholder="輸入訊息..."
                   type="text"
                   class="textbox"
-                  style="width: 100%;
-                  background-color: #bdbdbd;
-                  height: 32px;
-                  border-radius: 16px;
-                  padding: 12px;"
                 />
       </div>
-      <div class="tool-sent py-5 pr-2"><v-icon @click="send" class="pl-3">
-                  mdi-send
-                </v-icon>
+      <div class="tool-sent py-5 px-3">
+          <v-img
+          @click="send"
+          :src="require('../assets/img/chatroom/send.svg')"
+          class="pl-3"
+          height="28"
+          width="28"
+        />
       </div>
       <div v-show="showEmoji" class="tool-emoji-panel">
         <div class="btnLine">
@@ -637,12 +647,12 @@ export default {
   font-size: 16px;
 }
 .text-box-text.custom {
-  background-color: #d5d5d5;
-  border-radius: 4px 24px 24px 24px;
-  margin-right: 12px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 1px 2px #D6D5D1;
+  border-radius: 4px 20px 20px 20px;
 }
 .text-box-text.main {
-  background-color: #8d8d8d;
+  background-color: #D6D5D1;
   border-radius: 24px 24px 4px 24px;
   margin-left: 12px;
 }
@@ -706,6 +716,10 @@ li:hover .text-box-time {
   font-size: 11px;
   line-height: 13px;
   text-align: center;
+  padding: 8px 12px;
+  border: 1px solid #D6D5D1;
+  box-sizing: border-box;
+  border-radius: 25px;
 }
 .btnLine {
   text-align: center;
@@ -755,7 +769,8 @@ li:hover .text-box-time {
   display: grid;
   grid-template-rows: 72px auto;
   grid-template-columns: auto auto 1fr auto;
-  background-color:#E0E0E0;
+  background-color:#FFFFFF;
+  border: 1px solid #D6D5D1;
 }
 .tool-emoji{
   vertical-align: middle;
@@ -794,6 +809,18 @@ li:hover .text-box-time {
   z-index: 1;
   top: calc(100vh - 150px);
   left: calc(100%/2 - 18px);
+}
+div.page-chatroom .header-shadow{
+  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+}
+.textbox{
+  width: 100%;
+  background-color: #FAF9F7;
+  box-sizing: border-box;
+  border: 1px solid #D6D5D1;
+  height: 32px;
+  border-radius: 16px;
+  padding: 12px;
 }
 @keyframes bounce {
   0%,
