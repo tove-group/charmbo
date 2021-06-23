@@ -28,11 +28,11 @@
               <span v-if="storeReceiver.onlineStatus" style="color: grey; font-size:0.6em;">上線中...</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <option-dialog @sentReport="sentReport" ref="optionDialog"></option-dialog>
+            <option-dialog v-if="!isCharmboRoom" @sentReport="sentReport" ref="optionDialog"></option-dialog>
     </v-toolbar></div>
     <div style="overflow-y: scroll;" id="messageContainer" @click="showEmoji = false">
       <v-card flat class="d-flex flex-column pt-3">
-              <v-btn v-if="storeReceiver.message && storeReceiver.message.length==0" text color="#7E7E7E" class="mb-5">
+              <v-btn v-if="storeReceiver.message && storeReceiver.message.length==0 && !isCharmboRoom" text color="#7E7E7E" class="mb-5">
                 向對方打聲招呼~
               </v-btn>
               <infinite-loading
@@ -133,7 +133,7 @@
                 聊天室將於一天後關閉喔</div>
       </v-card>
     </div>
-    <div class="flex-grow-0 tool-bar">
+    <div v-if="!isCharmboRoom" class="flex-grow-0 tool-bar">
       <div class="tool-emoji py-5 pl-2">
         <v-icon @click="showEmoji = !showEmoji">
           mdi-sticker-emoji
@@ -275,6 +275,9 @@ export default {
         (e) => e._id === this.$route.query.id
       ) || {message:[],isTyping:false};
     },
+    isCharmboRoom(){
+      return this.$route.query.id === "charmbo";
+    }
   },
   created() {
     this.debounceGifSearch = debounce(this.getGif, 500); //debounce 0.5sec
