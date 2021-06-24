@@ -1,5 +1,5 @@
 <template>
-    <div @click="btnClick" class="btn py-3 px-10 charmbo-text-color5" :class=[bgcolor]>
+    <div @click="btnClick" class="btn py-3 px-10" :class=[bgcolor]>
         <slot></slot>
     </div>
 </template>
@@ -10,11 +10,19 @@ export default {
         disabled:{
             type:Boolean,
             default: false
+        },
+        outline:{
+            type:Boolean,
+            default: false
         }
     },
     computed:{
         bgcolor(){
-            return this.disabled? 'charmbo-bgcolor-disable':'charmbo-bgcolor-primary';
+            if(this.disabled)
+                return 'disable';
+            if(this.outline)
+                return 'outline';
+            return 'default';
         }
     },
     methods:{
@@ -26,11 +34,24 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .btn{
     display: inline-block;
-    box-shadow: 0px 0px 4px #F5D036;
     border-radius: 32px;
     cursor: pointer;
+}
+.default{
+    color:#FFFFFF;
+    background:#F2C611;
+    box-shadow: 0px 0px 4px #F5D036;
+}
+.outline{
+    color:#F2C611;
+    border: 2px solid #D6D5D1;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+}
+.disable{
+    color: #A9A8A5;
+    background: #FAF9F7;
 }
 </style>
