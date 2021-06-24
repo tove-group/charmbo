@@ -1,15 +1,9 @@
 <template>
-    <div class="foot-container">
-        <div v-for="(icon, index) in icons" :key="index">
-            <router-link :to="{name: icon.name}">
-                <v-img
-                    :src="activeTab == icon.name ? icon.active : icon.normal"
-                    :height="icon.height"
-                    :width="icon.width"
-                    class="mx-auto"
-                ></v-img>
-            </router-link>
-        </div>
+    <div class="root-box d-flex" :class="[activeTab]">
+        <div class="flex-item" @click="$router.push({name: 'profile'})"></div>
+        <div class="flex-item" @click="$router.push({name: 'pair'})"></div>
+        <div class="flex-item" @click="$router.push({name: 'achievement'})"></div>
+        <div class="flex-item" @click="$router.push({name: 'chatList'})"></div>
     </div>
 </template>
 <script>
@@ -23,36 +17,6 @@
         },
         data(){
             return {
-                icons:[
-                    {
-                        name:'profile',
-                        normal:require('../assets/img/footer/member.svg'),
-                        active:require('../assets/img/footer/member-active.svg'),
-                        height:'36px',
-                        width:'45px',
-                    },
-                    {
-                        name:'pair',
-                        normal:require('../assets/img/footer/main.svg'),
-                        active:require('../assets/img/footer/main-active.svg'),
-                        height:'39px',
-                        width:'23px',
-                    },
-                    {
-                        name:'achievement',
-                        normal:require('../assets/img/footer/charmbo.svg'),
-                        active:require('../assets/img/footer/charmbo-active.svg'),
-                        height:'38px',
-                        width:'54px',
-                    },
-                    {
-                        name:'chatList',
-                        normal:require('../assets/img/footer/message.svg'),
-                        active:require('../assets/img/footer/message-active.svg'),
-                        height:'36px',
-                        width:'22px',
-                    }
-                ]
             }
         },
         components: {
@@ -61,12 +25,22 @@
     }
 </script>
 <style>
-.foot-container{
-    border: 1px solid #BDBDBD;
-    border-radius: 16px 16px 0px 0px;
-    display:flex;
-    justify-content: space-around;
-    align-items: center;
+.root-box{
     height:72px;
+}
+.profile{
+    background-image: url("../assets/img/footer/member-bar.svg");
+}
+.pair{
+    background-image: url("../assets/img/footer/pair-bar.svg");
+}
+.achievement{
+    background-image: url("../assets/img/footer/charmbo-bar.svg");
+}
+.chatList{
+    background-image: url("../assets/img/footer/chat-bar.svg");
+}
+.flex-item{
+    flex:0 1 25%;
 }
 </style>
