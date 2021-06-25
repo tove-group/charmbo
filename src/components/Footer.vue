@@ -27,6 +27,7 @@
 <style>
 .root-box{
     height:72px;
+    background-size: 100%;
 }
 .profile{
     background-image: url("../assets/img/footer/member-bar.svg");
