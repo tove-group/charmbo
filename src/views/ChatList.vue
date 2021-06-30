@@ -2,7 +2,7 @@
     <div class="page-chat-list max-width">
     <div style="box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);">
         <div class="mt-16 d-flex justify-center"><div class="fw-semi-bold fs-20">對話</div></div>
-        <div class="search-bar d-flex align-center mt-2 mb-4 mx-10">
+        <div class="search-bar d-flex align-center mt-2 mb-1 mx-10">
             <div class="mr-3">
             <v-img
                 :src="require('../assets/img/search.svg')"
@@ -18,7 +18,22 @@
             class="mt-1 mb-1"
             >mdi-window-close</v-icon>    
         </div>
+        <div class="d-flex fw-medium fs-12">
+            <div class="flex-grow-1 d-flex align-center justify-center py-2 active">
+                <div>配對對話</div>
+            </div>
+            <div class="flex-grow-1 d-flex align-center justify-center py-2">
+                <div>邀請對話</div>
+                <div class="pb-2">
+                    <v-img
+                        :src="require('../assets/img/star.svg')"
+                        height="10"
+                        width="10"
+                    />
+                </div>
+            </div>
         </div>
+    </div>
         <div class="pa-0 charmbo-bgcolor-gray" style="overflow-x:hidden">
             <room-item key="charmbo" :item="charmboroom" @clickItem="toChatRoom" @clickPin="clickPin"></room-item>
             <v-card
@@ -164,5 +179,8 @@ input:focus{
     height: 100vh;
     grid-template-rows: auto 1fr auto;
     gap:1px;
+}
+.active{
+    border-bottom: 4px solid #F2C611;
 }
 </style>

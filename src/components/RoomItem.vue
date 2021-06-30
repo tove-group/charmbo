@@ -9,30 +9,32 @@
         <div v-else @click="pinClick" class="pin-area-unpind charmbo-bgcolor-secondary">
           <v-icon color="white">mdi-pin-off</v-icon>
           取消置頂
-        </div><div class="content-area px-2" @click="$emit('clickItem',item)">
-              <div class="d-inline-block ri-col-1">
-                <v-avatar size="48">
-                  <v-img
-                      :src="getImg(item)"
-                      class="rounded-circle mx-auto"
-                  ></v-img>
-                </v-avatar>
-                <div v-if="item.pinned" class="rounded-circle pind-img charmbo-bgcolor-primary"><v-icon color="white" size="10">mdi-pin</v-icon></div>
+        </div><div class="content-area px-2 d-inline-flex justify-start" @click="$emit('clickItem',item)">
+              <div class="ri-col-1 d-flex align-center justify-center">
+                <div>
+                  <v-avatar size="48">
+                    <v-img
+                        :src="getImg(item)"
+                        class="rounded-circle mx-auto"
+                    ></v-img>
+                  </v-avatar>
+                  <div v-if="item.pinned" class="rounded-circle pind-img charmbo-bgcolor-primary"><v-icon color="white" size="10">mdi-pin</v-icon></div>
+                </div>
               </div>
-              <div class="d-inline-block ri-col-2 px-2">
-                <div class="name-text" :class="hasUnread?'charmbo-text-color1':'charmbo-text-color4'">
+              <div class="ri-col-2 d-flex flex-column justify-center pl-2">
+                <div class="name-text fw-semi-bold" :class="hasUnread || item.message.length == 0?'charmbo-text-color1':'charmbo-text-color4'">
                   {{ item.userName }}
                   <span class="dot" v-if="item.onlineStatus"></span>
                 </div>
                 <div class="mt-2">
-                  <div v-if="item.isTyping">
+                  <!-- <div v-if="item.isTyping">
                     <div class="typingIndicatorContainer">
                       <div class="typingIndicatorBubbleDot"></div>
                       <div class="typingIndicatorBubbleDot"></div>
                       <div class="typingIndicatorBubbleDot"></div>
                     </div>
-                  </div>
-                  <div v-else-if="item.message.length == 0" class="new-friend-text charmbo-color-primary">
+                  </div> -->
+                  <div v-if="item.message.length == 0" class="new-friend-text charmbo-color-primary">
                     和新朋友開始聊天吧
                   </div>
                   <div v-else class="msg-text" :class="hasUnread?'charmbo-text-color2 fw-bold':'charmbo-text-color4'">
@@ -40,13 +42,13 @@
                   </div>
                 </div>
               </div>
-              <div class="d-inline-block ri-col-3">
-                <div class="time-unread-box">
-                  <div v-if="!item.isTyping">
+              <div class="ri-col-3 d-flex flex-column justify-center align-end">
+                <!-- <div class="time-unread-box"> -->
+                  <!-- <div v-if="!item.isTyping"> -->
                     <div class="list-text-box-time" :class="hasUnread?'charmbo-text-color2 fw-medium':'charmbo-text-color3'">{{ getTime(item) }}</div>
-                    <div class="list-text-box-unread"><div v-if="hasUnread" class="unread-point rounded-circle charmbo-bgcolor-secondary"></div></div>
-                  </div>
-                </div>
+                    <div class="list-text-box-unread" :class="hasUnread?'':'v-hidden'"><div class="unread-point rounded-circle charmbo-bgcolor-secondary"></div></div>
+                  <!-- </div> -->
+                <!-- </div> -->
               </div>
             </div>
       </div>
@@ -166,40 +168,38 @@ export default {
 </script>
 <style>
 .wrapper-view{
-  height: 85px;
+  height: 80px;
   overflow: hidden;
 }
 .wrapper-container{
   width: 520px;
-  height: 85px;
+  height: 80px;
   background: white;
 }
 .pin-area{
   display: inline-block;
   width: 120px;
-  height: 85px;
+  height: 80px;
   color:white;
-  line-height: 85px; 
+  line-height: 80px; 
   padding:0 10px
 }
 .pin-area-unpind{
   display: inline-block;
   width: 120px;
-  height: 85px;
+  height: 80px;
   color:white;
-  line-height: 85px; 
+  line-height: 80px; 
   padding:0 10px
 }
 .content-area{
-  display: inline-block;
+  /* display: inline-block; */
   width: 400px;
-  height: 85px;
-  line-height: 85px; 
+  height: 80px;
+  /* line-height: 85px;  */
 }
 .name-text {
   max-width: 264px;
-  font-weight: 600;
-  font-size: 14px;
   line-height: 17px;
 }
 .msg-text {
@@ -213,20 +213,20 @@ export default {
 }
 .ri-col-1{
   width:60px;
-  line-height: 85px;
-  vertical-align: middle;
+  /* line-height: 85px; */
+  /* vertical-align: middle; */
   position: relative;
 }
 .ri-col-2{
   width:240px;
   line-height: 85px;
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 .ri-col-3{
   width:65px;
   height:85px;
   /* line-height: 85px; */
-  vertical-align: top;
+  /* vertical-align: top; */
 }
 .new-friend-text{
   font-weight: 600;
@@ -254,8 +254,8 @@ export default {
   height:20px;
 }
 .list-text-box-unread{
-  display: flex;
-  justify-content: flex-end;
+  /* display: flex;
+  justify-content: flex-end; */
   height:25;
 }
 .unread-point{
@@ -274,5 +274,8 @@ export default {
   border-radius: 50%;
   display: inline-block;
   margin-left: 3px;
+}
+.v-hidden{
+  visibility:hidden;
 }
 </style>
