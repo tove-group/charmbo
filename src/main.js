@@ -9,7 +9,7 @@ Vue.use(VueCookies)
 
 window.API_HOST = 'https://t4-dating-api.azurewebsites.net';
 if(window.location.hostname == 'localhost') window.API_HOST = 'http://localhost:3000';
-if(window.location.hostname == 'tove-group.github.io') window.API_HOST = 'https://charmbo.parsons125.in:3030';
+if(window.location.hostname == 'tove-group.github.io') window.API_HOST = 'https://api-charmbo.parsons125.in';
 // socket.io
 import VueSocketIOExt from 'vue-socket.io-extended';
 import { io } from 'socket.io-client';
