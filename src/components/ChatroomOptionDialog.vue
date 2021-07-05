@@ -9,10 +9,14 @@
                 icon
                 v-bind="attrs"
                 v-on="on"
+                height="24"
+                width="24"
             >
-                <v-icon color="black"
-                >mdi-dots-vertical
-                </v-icon>
+                <v-img
+                    :src="require('../assets/img/dotlist.svg')"
+                    height="24"
+                    width="24"
+                />
             </v-btn>
             </template>
             <!-- <template v-slot:default="dialog"> -->

@@ -8,14 +8,12 @@
             </v-icon>
         </div>
         <div class="message-room-header d-flex justify-space-between charmbo-bgcolor-white px-8 py-4">
-            <div>
-                <v-icon
-                    large
-                    class="mr-5"
-                    color="black"
-                    @click="$router.push({ name: 'chatList' })"
-                    >mdi-chevron-left</v-icon
-                >
+            <div @click="$router.push({ name: 'chatList' })">
+                <v-img
+                    :src="require('../assets/img/back.svg')"
+                    height="56"
+                    width="56"
+                />
             </div>
             <div class="d-flex flex-column align-center">
                 <div class="my-2">
@@ -29,7 +27,7 @@
                 </div>
                 <div class="fw-semi-bold">{{ storeReceiver.userName }}</div>
             </div>
-            <div><option-dialog v-if="!isCharmboRoom" @sentReport="sentReport" ref="optionDialog"></option-dialog></div>
+            <div class="pt-2"><option-dialog v-if="!isCharmboRoom" @sentReport="sentReport" ref="optionDialog"></option-dialog></div>
         </div>
         <div style="overflow-y: scroll;" id="messageContainer" @click="showEmoji = false">
         <v-card color="#FAF9F7" flat class="d-flex flex-column pt-3">
