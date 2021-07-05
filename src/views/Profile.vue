@@ -1,91 +1,157 @@
 <template>
     <div class="member-container max-width">
         <div style="overflow-y: scroll;">
-        <div class="profile-bg">
-            <div class="rel" @click="$router.push({name: 'photoEditor'})">
-                <v-img 
-                    width="130"
-                    height="130"
-                    :src="getImg"
-                    class="rounded-circle mx-auto img-avatar cursor-pointer"
-                    :class="{isAvatarHovering: isAvatarHovering}"
-                    style="border: 5px solid white;"
-                    @mouseover="isAvatarHovering= true"
-                    @mouseout="isAvatarHovering=false"
-                ></v-img>
-                <!-- <div class="rounded-circle img-zodiac" :class="[horoscope]"></div> -->
-                <v-icon
-                    class="rounded-circle plus-icon"
-                    size="40"
-                    color="#BDBDBD"
-                >mdi-plus-circle</v-icon>
+            <div class="profile-bg pt-7 pb-3" style="box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);">
+                <div class="rel" @click="$router.push({name: 'photoEditor'})">
+                    <v-img 
+                        width="120"
+                        height="120"
+                        :src="getImg"
+                        class="rounded-circle mx-auto img-avatar cursor-pointer"
+                        :class="{isAvatarHovering: isAvatarHovering}"
+                        style="border:2px solid #F2C611;"
+                        @mouseover="isAvatarHovering= true"
+                        @mouseout="isAvatarHovering=false"
+                    ></v-img>
+                    <!-- <div class="rounded-circle img-zodiac" :class="[horoscope]"></div> -->
+                    <v-icon
+                        class="rounded-circle plus-icon"
+                        size="30"
+                        color="#F2C611"
+                    >mdi-plus-circle</v-icon>
+                </div>
+                <div class="d-flex justify-center align-center py-3">
+                    <div class="mx-1 profile-name d-inline-flex align-center">
+                        <div class="flex-grow-1 my-2 ml-3">
+                            <input
+                                class="fs-14"
+                                v-model="userName"
+                                :size="userName.length * 2"
+                                @blur="update('userName')"
+                                @change="hasChange = true"
+                                style="text-align: center;"
+                                />
+                        </div>
+                        <div class="flex-grow-0 ma-3">
+                            <v-img
+                                :src="require('../assets/img/pen.svg')"
+                                height="14"
+                                width="14" />
+                        </div>
+                        <!-- <v-text-field
+                            class="profile-name"
+                            solo
+                            dense
+                            v-model="userName"
+                            @blur="update('userName')"
+                            @change="hasChange = true"></v-text-field> -->
+                    </div>
+                    <div class="fs-14 mx-1 py-3">{{age}}</div>
+                </div>
+                <div class="d-flex justify-center py-3">
+                    <div class="mx-2">
+                        <charmbo-botton outline @click="$router.push({name: 'setting'})">
+                            <div class="fs-16 fw-semi-bold">設定</div>
+                        </charmbo-botton>
+                    </div>
+                    <div class="mx-2">
+                        <charmbo-botton @click="infoDialog = true">
+                            <div class="fs-16 fw-semi-bold">檔案預覽</div>
+                        </charmbo-botton>
+                    </div>
+                </div>
             </div>
-            <v-text-field
-                class="profile-name"
-                solo
-                dense
-                v-model="userName"
-                @blur="update('userName')"
-                @change="hasChange = true"></v-text-field>
-            <p class="profile-age">{{age}}</p>
-        </div>
-        <p class="profile-achievement">個人成就</p>
-        <div style="overflow-y:hidden;min-width:360px">
-        <span class="profile-view" @click="infoDialog = true">檔案預覽</span><span class="profile-set cursor-pointer" @click="$router.push({name: 'setting'})">設定</span>
-        </div>
-        <div class="input-aeras">
-            <v-text-field
-                label="自我介紹"
-                placeholder="我喜歡..."
-                v-model="user.summary"
-                @blur="update('summary')"
-                @change="hasChange = true"
-            ></v-text-field>
-            <v-text-field
-                label="職業"
-                placeholder="工作"
-                v-model="user.job"
-                @blur="update('job')"
-                @change="hasChange = true"
-            ></v-text-field>
-            <v-text-field
-                label="興趣愛好"
-                placeholder="興趣"
-                v-model="interestString"
-                @blur="update('interest')"
-                @change="hasChange = true"
-            ></v-text-field>
-            <v-select
-                :items="locationItems"
-                label="我常出現在"
-                v-model="user.location"
-                @blur="update('location')"
-                @change="hasChange = true"
-                multiple
-            ></v-select>
-            <v-select
-                :items="sexItems"
-                label="戀愛取向"
-                v-model="user.expectationSex"
-                @blur="update('expectationSex')"
-                @change="hasChange = true"
-            ></v-select>
-            <v-select
-                :items="relationItems"
-                label="感情狀態"
-                v-model="user.status"
-                @blur="update('status')"
-                @change="hasChange = true"
-            ></v-select>
-            <v-select
-                :items="findItems"
-                label="我想尋找"
-                v-model="user.lookingFor"
-                @blur="update('lookingFor')"
-                @change="hasChange = true"
-            ></v-select>
-        </div>
-        <user-info-dialog :user="user" :dialog.sync="infoDialog"></user-info-dialog>
+            <div class="charmbo-bgcolor-gray pa-8 fs-14">
+                <div class="fw-medium mb-1">自我介紹</div>
+                <textarea
+                    class="inputClass input-border py-2 px-3"
+                    v-model="user.summary"
+                    placeholder="寫下你的自我介紹，平時喜歡做什麼？想認識什麼樣的朋友？可以讓人更快速地認識你喔！"
+                    @blur="update('summary')"
+                    @change="hasChange = true"
+                />
+                <div class="fw-medium mt-6 mb-1">興趣愛好</div>
+                <input
+                    class="input-border py-2 px-3"
+                    v-model="interestString"
+                    placeholder="興趣"
+                    @blur="update('interest')"
+                    @change="hasChange = true"
+                />
+                <div class="d-flex">
+                    <div class="mr-3">
+                        <div class="fw-medium mt-6 mb-1">我常出現在</div>
+                        <input
+                            class="input-border py-2 px-3"
+                            v-model="user.location"
+                            placeholder="台北市"
+                            @blur="update('location')"
+                            @change="hasChange = true"
+                        />
+                        <!-- <v-select
+                        :items="locationItems"
+                        label="我常出現在"
+                        v-model="user.location"
+                        @blur="update('location')"
+                        @change="hasChange = true"
+                        multiple
+                    ></v-select> -->
+                    </div>
+                    <div class="ml-3">
+                        <div class="fw-medium mt-6 mb-1">職業</div>
+                        <input
+                            class="input-border py-2 px-3"
+                            v-model="user.job"
+                            placeholder="工作"
+                            @blur="update('job')"
+                            @change="hasChange = true"
+                        />
+                        <!-- <v-text-field
+                            label="職業"
+                            placeholder="工作"
+                            v-model="user.job"
+                            @blur="update('job')"
+                            @change="hasChange = true"
+                        ></v-text-field> -->
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div>
+                        <div class="fw-medium mt-6 mb-1">戀愛取向</div>
+                        <v-select
+                            :items="sexItems"
+                            label="戀愛取向"
+                            v-model="user.expectationSex"
+                            @blur="update('expectationSex')"
+                            @change="hasChange = true"
+                        ></v-select>
+                    </div>
+                    <div></div>
+                </div>
+                <div class="d-flex">
+                    <div>
+                        <div class="fw-medium mt-6 mb-1">感情狀態</div>
+                        <v-select
+                            :items="relationItems"
+                            label="感情狀態"
+                            v-model="user.status"
+                            @blur="update('status')"
+                            @change="hasChange = true"
+                        ></v-select>
+                    </div>
+                    <div>
+                        <div class="fw-medium mt-6 mb-1">我想尋找</div>
+                        <v-select
+                            :items="findItems"
+                            label="我想尋找"
+                            v-model="user.lookingFor"
+                            @blur="update('lookingFor')"
+                            @change="hasChange = true"
+                        ></v-select>
+                    </div>
+                </div>
+            </div>
+            <user-info-dialog :user="user" :dialog.sync="infoDialog"></user-info-dialog>
         </div>
         <footer-bar activeTab="profile"></footer-bar>
     </div>
@@ -93,10 +159,12 @@
 <script>
     import FooterBar from '../components/Footer.vue';
     import UserInfoDialog from '../components/UserInfoDialog.vue';
+    import CharmboBotton from '@/components/CharmboBotton.vue';
     export default {
         components: {
             FooterBar,
-            UserInfoDialog
+            UserInfoDialog,
+            CharmboBotton
         },
         data(){
             return {
@@ -221,33 +289,14 @@
 </script>
 <style>
 .profile-bg{
-    /* position: fixed; */
-    height: 287px;
-    left: 0px;
-    right: 0px;
-    top: 44px;
-
-    background: #F2F2F2;
-    border-radius: 2px;
-    text-align: center;
-
-    padding-top: 48px;
+    margin-bottom: 1px;
 }
 .profile-name{
-    /* display: flex; */
-    /* flex-direction: row; */
-    justify-content: center;
-    text-align: center;
-    /* align-items: center; */
-    display: inline-block;
-    padding: 4px 24px;
-    margin: 10px auto;
-    /* position: absolute; */
-    min-width: 117px;
-    height: 30px;
-    /* left: calc(50% - 117px/2); */
-
+    min-width: 112px;
     background: #FFFFFF;
+    border: 1px solid #D6D5D1;
+    box-sizing: border-box;
+    border-radius: 10px;
 }
 .rel{
     position: relative;
@@ -260,12 +309,12 @@
 }
 .plus-icon{
     position:absolute;
-    width: 40px;
-    height: 40px;
-    left: 50px;
-    top: 95px;
-    border: 4px solid #FFFFFF;
-    background: #F2F2F2;
+    width: 30px;
+    height: 30px;
+    left: 83px;
+    top: 89px;
+    border: 4px solid #F2C611;
+    background: white;
 }
 .img-zodiac{
     position:absolute;
@@ -313,9 +362,6 @@
 .capricorn{
     background-position: -56px -132px;
 }
-.profile-age{
-    margin-top: 15px;
-}
 .profile-achievement{
     width: 327px;
     height: 80px;
@@ -324,30 +370,6 @@
     margin: -40px auto 0 auto;
     text-align: center;
     line-height: 80px;
-}
-.profile-view{
-    display: inline-block;
-    width: 229px;
-    height: 36px;
-    background: #BDBDBD;
-    border-radius: 50px;
-    margin: 0px 16px 0 30px;
-    text-align: center;
-    line-height: 36px;
-}
-.profile-set{
-    display: inline-block;
-    width: 66px;
-    height: 36px;
-    background: #BDBDBD;
-    border-radius: 50px;
-    margin-left:16px;
-    text-align: center;
-    line-height: 36px;
-}
-.input-aeras{
-    width: 311px;
-    margin: 10px auto 0 auto;
 }
 .cursor-pointer{
     cursor: pointer;
@@ -360,5 +382,14 @@
 .isAvatarHovering {
     filter:grey;
     -webkit-filter: grayscale(50%);
+}
+.inputClass{
+    height: 96px;
+}
+.input-border{
+    width:100%;
+    border: 1px solid #D6D5D1;
+    box-sizing: border-box;
+    border-radius: 15px;
 }
 </style>
