@@ -64,17 +64,19 @@
             <div class="charmbo-bgcolor-gray pa-8 fs-14">
                 <div class="fw-medium mb-1">自我介紹</div>
                 <textarea
-                    class="inputClass input-border py-2 px-3"
+                    class="inputClass input-border charmbo-input py-2 px-3"
                     v-model="user.summary"
                     placeholder="寫下你的自我介紹，平時喜歡做什麼？想認識什麼樣的朋友？可以讓人更快速地認識你喔！"
+                    :disabled="!isEdit"
                     @blur="update('summary')"
                     @change="hasChange = true"
                 />
                 <div class="fw-medium mt-6 mb-1">興趣愛好</div>
                 <input
-                    class="input-border py-2 px-3"
+                    class="input-border charmbo-input py-2 px-3"
                     v-model="interestString"
                     placeholder="興趣"
+                    :disabled="!isEdit"
                     @blur="update('interest')"
                     @change="hasChange = true"
                 />
@@ -82,9 +84,10 @@
                     <div class="mr-3">
                         <div class="fw-medium mt-6 mb-1">我常出現在</div>
                         <input
-                            class="input-border py-2 px-3"
+                            class="input-border charmbo-input py-2 px-3"
                             v-model="user.location"
                             placeholder="台北市"
+                            :disabled="!isEdit"
                             @blur="update('location')"
                             @change="hasChange = true"
                         />
@@ -100,9 +103,10 @@
                     <div class="ml-3">
                         <div class="fw-medium mt-6 mb-1">職業</div>
                         <input
-                            class="input-border py-2 px-3"
+                            class="input-border charmbo-input py-2 px-3"
                             v-model="user.job"
                             placeholder="工作"
+                            :disabled="!isEdit"
                             @blur="update('job')"
                             @change="hasChange = true"
                         />
@@ -117,6 +121,12 @@
                 </div>
                 <div class="d-flex">
                     <div>
+                        <select>
+                            <option>-- 請選擇 --</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
                         <div class="fw-medium mt-6 mb-1">戀愛取向</div>
                         <v-select
                             :items="sexItems"
@@ -150,6 +160,15 @@
                         ></v-select>
                     </div>
                 </div>
+                <div class="text-center">
+                    <charmbo-botton v-if="!isEdit" @click="isEdit = true">
+                        <div class="fs-16 fw-semi-bold">更改</div>
+                    </charmbo-botton>
+                    <span v-if="isEdit" class="fs-16 fw-semi-bold mr-5 charmbo-color-primary">全部清除</span>
+                    <charmbo-botton v-if="isEdit" @click="isEdit = false">
+                        <div class="fs-16 fw-semi-bold">確認</div>
+                    </charmbo-botton>
+                </div>
             </div>
             <user-info-dialog :user="user" :dialog.sync="infoDialog"></user-info-dialog>
         </div>
@@ -182,7 +201,8 @@
                 hasChange:false,
                 interestString:"",
                 isAvatarHovering: false,
-                infoDialog:false
+                infoDialog:false,
+                isEdit:false,
             }
         },
         created(){
@@ -391,5 +411,15 @@
     border: 1px solid #D6D5D1;
     box-sizing: border-box;
     border-radius: 15px;
+}
+.charmbo-input{
+    background-color: #FFFFFF;
+}
+.charmbo-input:disabled{
+    background-color: #FAF9F7;
+}
+.charmbo-input:focus-visible{
+    border: 2px solid #F2C611;
+    outline: 0px;
 }
 </style>
