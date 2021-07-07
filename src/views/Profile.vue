@@ -71,15 +71,30 @@
                     @blur="update('summary')"
                     @change="hasChange = true"
                 />
-                <div class="fw-medium mt-6 mb-1">興趣愛好</div>
-                <input
+                <div class="fw-medium mt-6 mb-1 d-flex align-center">
+                    <div>興趣愛好</div>
+                    <div class="ml-1 charmbo-bgcolor-primary charmbo-text-color5 rounded-circle text-center" style="width:16px;height:16px;line-height:16px">{{user.interestlist.length}}</div>
+                </div>
+                <div
+                    class="input-border d-flex flex-wrap pa-2"
+                    :class="isEdit?'charmbo-bgcolor-white':''">
+                    <div
+                        v-for="(interest, index) in user.interestlist"
+                        :key="index"
+                        
+                        class="my-1 mx-1 px-3 py-1 charmbo-bgcolor-chat interest-border"
+                        >
+                        {{interest}}
+                    </div>
+                </div>
+                <!-- <input
                     class="input-border charmbo-input py-2 px-3"
                     v-model="interestString"
                     placeholder="興趣"
                     :disabled="!isEdit"
                     @blur="update('interest')"
                     @change="hasChange = true"
-                />
+                /> -->
                 <div class="d-flex">
                     <div class="mr-3">
                         <div class="fw-medium mt-6 mb-1">我常出現在</div>
@@ -421,5 +436,10 @@
 .charmbo-input:focus-visible{
     border: 2px solid #F2C611;
     outline: 0px;
+}
+.interest-border{
+    border: 1px solid #F2C611;
+    box-sizing: border-box;
+    border-radius: 8px;
 }
 </style>
