@@ -44,6 +44,11 @@ const routes = [
     component: () => import('../views/Setting.vue')
   },
   {
+    path: '/interest-setting',
+    name:'interestSetting',
+    component: () => import('../views/InterestSetting.vue')
+  },
+  {
     path: '/photoeditor',
     name:'photoEditor',
     component: () => import('../views/PhotoEditor.vue')

@@ -77,7 +77,8 @@
                 </div>
                 <div
                     class="input-border d-flex flex-wrap pa-2"
-                    :class="isEdit?'charmbo-bgcolor-white':''">
+                    :class="isEdit?'charmbo-bgcolor-white':''"
+                    @click="isEdit && $router.push({name: 'interestSetting'})">
                     <div
                         v-for="(interest, index) in user.interestlist"
                         :key="index"
@@ -314,10 +315,10 @@
                     break;
                 }
                 this.$store.dispatch('actionUserUpdate', param)
-                        .then((response) => {
-                            console.log('ok',response)
-                            this.hasChange = false;
-                    });
+                    .then((response) => {
+                        console.log('ok',response)
+                        this.hasChange = false;
+                });
             }
         }
     }

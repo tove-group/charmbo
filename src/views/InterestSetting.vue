@@ -1,0 +1,144 @@
+<template>
+    <div class="max-width">
+        <div class="title-area py-2 mt-4">
+            <div
+                class="back-img ml-8 mt-3"
+                @click="update">
+                <v-img
+                    :src="require('@/assets/img/back.svg')"
+                    height="56"
+                    width="56"
+                />
+            </div>
+            <div class="fw-black fs-20 py-2">選擇興趣愛好</div>
+            <div class="fs-12 py-2">(10個以內)</div>
+        </div>
+        <div class="charmbo-bgcolor-gray pa-7 pt-3">
+            <div class="my-3 charmbo-color-primary" style="text-align:right;">已選擇{{selectedList.length}}個</div>
+            <div v-for="interestCategory in interestList" :key="interestCategory.category">
+                <div class="ma-2">{{interestCategory.category}}</div>
+                <div class="d-flex flex-wrap">
+                    <div
+                        class="py-2 px-4 mx-1 my-1 charmbo-bgcolor-white interest-btn"
+                        :class="itemIsSlected(item)?'btn-active':''"
+                        v-for="item in interestCategory.items"
+                        :key="item"
+                        @click="clickItem(item)">
+                        {{item}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+
+    export default {
+        components: {
+
+        },
+        data(){
+            return {
+                selectedList:[],
+                interestList:[
+                    {
+                        category:'運動',
+                        items:['室內攀岩', '游泳', '格鬥', '健身', '騎腳踏車', '爬山', '籃球', '羽球', '桌球', '排球', '慢跑', '衝浪', '高爾夫球', '足球']
+                    },
+                    {
+                        category:'聽音樂',
+                        items:['獨立樂團', 'JPOP', 'KPOP', 'CPOP', '西洋', 'EDM', '爵士', '古典', '饒舌']
+                    },
+                    {
+                        category:'玩音樂',
+                        items:['吉他', '烏克麗麗', '鋼琴', '小提琴', '唱歌', '鼓', '合成器']
+                    },
+                    {
+                        category:'影劇',
+                        items:['Netflix', '追劇', '動畫', '電影', 'Podcast', 'Youtube', '卡通']
+                    },
+                    {
+                        category:'閱讀',
+                        items:['小說', '漫畫', '散文', '詩集']
+                    },
+                    {
+                        category:'遊戲',
+                        items:['電動', '手遊', '桌遊', '棋藝', 'PS5', '密室逃脫', 'SWITCH']
+                    },
+                    {
+                        category:'藝文活動',
+                        items:['展覽', '露營', '攝影', '旅遊', '繪畫', '品酒', '購物', '花藝', '聊天', '裁縫', '編織']
+                    },
+                    {
+                        category:'寵物',
+                        items:['貓奴', '狗奴', '鼠奴', '兔奴', '爬蟲奴', '鳥奴', '植物']
+                    },
+                    {
+                        category:'聊天哈啦',
+                        items:['社會議題', '時事新聞', '哲學思考', '資深鄉民']
+                    },
+                    {
+                        category:'社交/聚會',
+                        items:['派對', '夜店', '唱歌', '美食', '野餐']
+                    },
+                ]
+            }
+        },
+        created(){
+            
+        },
+        mounted(){
+            this.selectedList = [...this.user.interestlist];
+        },
+        computed: {
+            user(){
+                return this.$store.state.userinfo;
+            },
+        },
+        methods:{
+            clickItem(item){
+                if(this.selectedList.indexOf(item) == -1){
+                    if(this.selectedList.length >= 10)
+                        return ;
+                    this.selectedList.push(item);
+                }
+                else
+                    this.selectedList = this.selectedList.filter(i => i != item);
+            },
+            itemIsSlected(item){
+                return this.selectedList.indexOf(item) != -1;
+            },
+            update(){
+                let param = {
+                    userData:{
+                        interestlist: [...this.selectedList]
+                    }
+                }
+                this.$store.dispatch('actionUserUpdate', param)
+                    .finally(() => {
+                        this.$router.push({ name: 'profile' })
+                });
+            }
+        }
+    }
+</script>
+<style>
+.title-area{
+    text-align: center;
+    position: relative;
+    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+}
+.back-img{
+    position: absolute;
+}
+.interest-btn{
+    border: 1px solid #D6D5D5;
+    box-sizing: border-box;
+    border-radius: 8px;
+}
+.btn-active{
+    background: #F8DE71;
+    border: 1px solid #F2C611;
+}
+
+</style>
