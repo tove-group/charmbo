@@ -21,7 +21,7 @@
             </div>
             <div class="fs-12 py-1 charmbo-text-color3">10個以內</div>
         </div>
-        <div class="charmbo-bgcolor-gray pa-7 pt-3" style="overflow-y: scroll;">
+        <div class="charmbo-bgcolor-gray pa-7 pt-3 charmbo-scroll">
             <div v-for="interestCategory in interestList" :key="interestCategory.category">
                 <div class="ma-2">{{interestCategory.category}}</div>
                 <div class="d-flex flex-wrap">

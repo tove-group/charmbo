@@ -31,3 +31,5 @@
 .po-relative { position: relative; }
 .po-absolute { position: absolute; }
 .cursor-pointer { cursor: pointer; }
+.charmbo-scroll {overflow-y: scroll;}
+.charmbo-scroll::-webkit-scrollbar { display: none;}

@@ -9,7 +9,7 @@
               width="13" />
       </div>
     </div>
-    <div v-if="isShowList" class="charmbo-list charmbo-bgcolor-white mt-1">
+    <div v-if="isShowList" class="charmbo-list charmbo-scroll charmbo-bgcolor-white mt-1">
       <div v-for="item in items" :key="item.value" @click="selectItem(item)" class="px-3 py-2" style="border-bottom: 1px solid #D6D5D1;">{{item.text}}</div>
     </div>
   </div>
@@ -87,6 +87,5 @@ export default {
   box-sizing: border-box;
   border-radius: 15px 15px 15px 15px;
   z-index: 8;
-  overflow-y: scroll;
 }
 </style>
