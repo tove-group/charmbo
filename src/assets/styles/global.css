@@ -12,6 +12,7 @@
 .charmbo-text-color3{ color:#8D8D8D; }
 .charmbo-text-color4{ color:#A9A8A5; }
 .charmbo-text-color5{ color:#FFFFFF; }
+.charmbo-text-color6{ color:#D6D5D1; }
 /*font-weight*/
 .fw-thin{ font-weight:100; }
 .fw-extra-light{ font-weight:200; }
@@ -29,3 +30,4 @@
 .fs-20{ font-size:20px; }
 .po-relative { position: relative; }
 .po-absolute { position: absolute; }
+.cursor-pointer { cursor: pointer; }

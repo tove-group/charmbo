@@ -1,5 +1,5 @@
 <template>
-    <div class="max-width">
+    <div class="page-grid max-width">
         <div class="title-area py-2 mt-4">
             <div
                 class="back-img ml-8 mt-3"
@@ -10,11 +10,18 @@
                     width="56"
                 />
             </div>
-            <div class="fw-black fs-20 py-2">選擇興趣愛好</div>
-            <div class="fs-12 py-2">(10個以內)</div>
+            <div class="fw-semi-bold fs-20 py-1">選擇興趣愛好</div>
+            <div class="d-flex justify-center py-1">
+                <div>
+                    <v-img
+                        :src="countImg"
+                        height="24"
+                        width="24" />
+                </div>
+            </div>
+            <div class="fs-12 py-1 charmbo-text-color3">10個以內</div>
         </div>
-        <div class="charmbo-bgcolor-gray pa-7 pt-3">
-            <div class="my-3 charmbo-color-primary" style="text-align:right;">已選擇{{selectedList.length}}個</div>
+        <div class="charmbo-bgcolor-gray pa-7 pt-3" style="overflow-y: scroll;">
             <div v-for="interestCategory in interestList" :key="interestCategory.category">
                 <div class="ma-2">{{interestCategory.category}}</div>
                 <div class="d-flex flex-wrap">
@@ -94,6 +101,10 @@
             user(){
                 return this.$store.state.userinfo;
             },
+            countImg(){
+                let imgName = ('0' + this.selectedList.length).slice(-2);
+                return require('../assets/img/' + imgName + '.svg');
+            }
         },
         methods:{
             clickItem(item){
@@ -139,6 +150,12 @@
 .btn-active{
     background: #F8DE71;
     border: 1px solid #F2C611;
+}
+.page-grid{
+    display: grid;
+    height: 100vh;
+    grid-template-rows: auto 1fr;
+    gap:1px;
 }
 
 </style>

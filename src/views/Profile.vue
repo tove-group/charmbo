@@ -38,13 +38,6 @@
                                 height="14"
                                 width="14" />
                         </div>
-                        <!-- <v-text-field
-                            class="profile-name"
-                            solo
-                            dense
-                            v-model="userName"
-                            @blur="update('userName')"
-                            @change="hasChange = true"></v-text-field> -->
                     </div>
                     <div class="fs-14 mx-1 py-3">{{age}}</div>
                 </div>
@@ -68,17 +61,21 @@
                     v-model="user.summary"
                     placeholder="寫下你的自我介紹，平時喜歡做什麼？想認識什麼樣的朋友？可以讓人更快速地認識你喔！"
                     :disabled="!isEdit"
-                    @blur="update('summary')"
-                    @change="hasChange = true"
                 />
                 <div class="fw-medium mt-6 mb-1 d-flex align-center">
-                    <div>興趣愛好</div>
-                    <div class="ml-1 charmbo-bgcolor-primary charmbo-text-color5 rounded-circle text-center" style="width:16px;height:16px;line-height:16px">{{user.interestlist.length}}</div>
+                    <div class="mr-1">興趣愛好</div>
+                    <div>
+                        <v-img
+                            :src="countImg"
+                            height="16"
+                            width="16" />
+                    </div>
                 </div>
                 <div
                     class="input-border d-flex flex-wrap pa-2"
                     :class="isEdit?'charmbo-bgcolor-white':''"
                     @click="isEdit && $router.push({name: 'interestSetting'})">
+                    <div class="ma-1 charmbo-text-color6" v-if="user.interestlist.length === 0">點擊選擇你的愛好！</div>
                     <div
                         v-for="(interest, index) in user.interestlist"
                         :key="index"
@@ -88,101 +85,69 @@
                         {{interest}}
                     </div>
                 </div>
-                <!-- <input
-                    class="input-border charmbo-input py-2 px-3"
-                    v-model="interestString"
-                    placeholder="興趣"
-                    :disabled="!isEdit"
-                    @blur="update('interest')"
-                    @change="hasChange = true"
-                /> -->
                 <div class="d-flex">
-                    <div class="mr-3">
+                    <div class="flex-basis-1 mr-3">
                         <div class="fw-medium mt-6 mb-1">我常出現在</div>
-                        <input
-                            class="input-border charmbo-input py-2 px-3"
+                        <charmbo-select
+                            label="縣市"
                             v-model="user.location"
-                            placeholder="台北市"
+                            :items="locationItems"
                             :disabled="!isEdit"
-                            @blur="update('location')"
-                            @change="hasChange = true"
-                        />
-                        <!-- <v-select
-                        :items="locationItems"
-                        label="我常出現在"
-                        v-model="user.location"
-                        @blur="update('location')"
-                        @change="hasChange = true"
-                        multiple
-                    ></v-select> -->
+                            >
+                        </charmbo-select>
                     </div>
-                    <div class="ml-3">
+                    <div class="flex-basis-1 ml-3">
                         <div class="fw-medium mt-6 mb-1">職業</div>
                         <input
                             class="input-border charmbo-input py-2 px-3"
                             v-model="user.job"
                             placeholder="工作"
                             :disabled="!isEdit"
-                            @blur="update('job')"
-                            @change="hasChange = true"
                         />
-                        <!-- <v-text-field
-                            label="職業"
-                            placeholder="工作"
-                            v-model="user.job"
-                            @blur="update('job')"
-                            @change="hasChange = true"
-                        ></v-text-field> -->
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div>
-                        <select>
-                            <option>-- 請選擇 --</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select>
+                    <div class="flex-basis-1 mr-3">
                         <div class="fw-medium mt-6 mb-1">戀愛取向</div>
-                        <v-select
-                            :items="sexItems"
-                            label="戀愛取向"
+                        <charmbo-select
+                            label="性別"
                             v-model="user.expectationSex"
-                            @blur="update('expectationSex')"
-                            @change="hasChange = true"
-                        ></v-select>
+                            :items="sexItems"
+                            :disabled="!isEdit"
+                            >
+                        </charmbo-select>
                     </div>
-                    <div></div>
+                    <div class="flex-basis-1 ml-3"></div>
                 </div>
                 <div class="d-flex">
-                    <div>
+                    <div class="flex-basis-1 mr-3">
                         <div class="fw-medium mt-6 mb-1">感情狀態</div>
-                        <v-select
-                            :items="relationItems"
-                            label="感情狀態"
+                        <charmbo-select
+                            label="狀態"
                             v-model="user.status"
-                            @blur="update('status')"
-                            @change="hasChange = true"
-                        ></v-select>
+                            :items="relationItems"
+                            :disabled="!isEdit"
+                            >
+                        </charmbo-select>
                     </div>
-                    <div>
+                    <div class="flex-basis-1 ml-3">
                         <div class="fw-medium mt-6 mb-1">我想尋找</div>
-                        <v-select
-                            :items="findItems"
-                            label="我想尋找"
+                        <charmbo-select
+                            label="關係"
                             v-model="user.lookingFor"
-                            @blur="update('lookingFor')"
-                            @change="hasChange = true"
-                        ></v-select>
+                            :items="findItems"
+                            :disabled="!isEdit"
+                            >
+                        </charmbo-select>
                     </div>
                 </div>
-                <div class="text-center">
+                <div class="text-center mt-8">
                     <charmbo-botton v-if="!isEdit" @click="isEdit = true">
                         <div class="fs-16 fw-semi-bold">更改</div>
                     </charmbo-botton>
-                    <span v-if="isEdit" class="fs-16 fw-semi-bold mr-5 charmbo-color-primary">全部清除</span>
+                    <span v-if="isEdit && showClearAll" class="fs-16 fw-semi-bold mr-5 charmbo-color-primary" @click="clearAll">全部清除</span>
                     <charmbo-botton v-if="isEdit" @click="isEdit = false">
-                        <div class="fs-16 fw-semi-bold">確認</div>
+                        <div class="fs-16 fw-semi-bold" @click="updateAll">確認</div>
                     </charmbo-botton>
                 </div>
             </div>
@@ -195,11 +160,13 @@
     import FooterBar from '../components/Footer.vue';
     import UserInfoDialog from '../components/UserInfoDialog.vue';
     import CharmboBotton from '@/components/CharmboBotton.vue';
+    import CharmboSelect from '@/components/CharmboSelect.vue';
     export default {
         components: {
             FooterBar,
             UserInfoDialog,
-            CharmboBotton
+            CharmboBotton,
+            CharmboSelect
         },
         data(){
             return {
@@ -212,8 +179,34 @@
                     {value:0,text:'戀愛中'},
                     {value:1,text:'單身中'},
                     {value:2,text:'開放式關係中'}],
-                findItems:['男女朋友','朋友','不拘','炮友'],
-                locationItems:['台北市','新北市','桃園市','台中市','台南市','高雄市','基隆市','新竹市','嘉義市','新竹縣','苗栗縣','彰化縣','南投縣','雲林縣','嘉義縣','屏東縣','宜蘭縣','花蓮縣','台東縣','澎湖縣','金門縣','連江縣'],
+                findItems:[
+                    {value:'男女朋友', text:'男女朋友'},
+                    {value:'朋友', text:'朋友'},
+                    {value:'不拘', text:'不拘'},
+                    {value:'炮友', text:'炮友'}],
+                locationItems:[
+                    {value:'台北市', text:'台北市'},
+                    {value:'新北市', text:'新北市'},
+                    {value:'桃園市', text:'桃園市'},
+                    {value:'台中市', text:'台中市'},
+                    {value:'台南市', text:'台南市'},
+                    {value:'高雄市', text:'高雄市'},
+                    {value:'基隆市', text:'基隆市'},
+                    {value:'新竹市', text:'新竹市'},
+                    {value:'嘉義市', text:'嘉義市'},
+                    {value:'新竹縣', text:'新竹縣'},
+                    {value:'苗栗縣', text:'苗栗縣'},
+                    {value:'彰化縣', text:'彰化縣'},
+                    {value:'南投縣', text:'南投縣'},
+                    {value:'雲林縣', text:'雲林縣'},
+                    {value:'嘉義縣', text:'嘉義縣'},
+                    {value:'屏東縣', text:'屏東縣'},
+                    {value:'宜蘭縣', text:'宜蘭縣'},
+                    {value:'花蓮縣', text:'花蓮縣'},
+                    {value:'台東縣', text:'台東縣'},
+                    {value:'澎湖縣', text:'澎湖縣'},
+                    {value:'金門縣', text:'金門縣'},
+                    {value:'連江縣', text:'連江縣'}],
                 hasChange:false,
                 interestString:"",
                 isAvatarHovering: false,
@@ -274,6 +267,20 @@
                 if (month == 11 && date >=22 || month == 12 && date <=21) {value = "sagittarius";}
                 if (month == 12 && date >=22 || month == 1 && date <=19) {value = "capricorn";}
                 return value;
+            },
+            countImg(){
+                let imgName = ('0' + this.user.interestlist.length).slice(-2);
+                return require('../assets/img/' + imgName + '.svg');
+            },
+            showClearAll(){
+                return (
+                    this.user.summary != "" ||
+                    this.user.interestlist.length != 0 ||
+                    this.user.location != "" ||
+                    this.user.job != "" ||
+                    this.user.expectationSex != null ||
+                    this.user.status != null ||
+                    this.user.lookingFor != "")
             }
         },
         methods:{
@@ -319,6 +326,31 @@
                         console.log('ok',response)
                         this.hasChange = false;
                 });
+            },
+            clearAll(){
+                this.user.summary = "";
+                this.user.interestlist = [];
+                this.user.location = "";
+                this.user.job = "";
+                this.user.expectationSex = null;
+                this.user.status = null;
+                this.user.lookingFor = "";
+            },
+            updateAll(){
+                let param = {
+                    userData:{
+                        summary:this.user.summary,
+                        location:this.user.location,
+                        job:this.user.job,
+                        expectationSex:this.user.expectationSex,
+                        status:this.user.status,
+                        lookingFor:this.user.lookingFor
+                    }
+                }
+                this.$store.dispatch('actionUserUpdate', param)
+                    .then(() => {
+                        this.$store.dispatch('actionUserinfo');
+                    });
             }
         }
     }
@@ -398,18 +430,6 @@
 .capricorn{
     background-position: -56px -132px;
 }
-.profile-achievement{
-    width: 327px;
-    height: 80px;
-    background: #E0E0E0;
-    border-radius: 14px;
-    margin: -40px auto 0 auto;
-    text-align: center;
-    line-height: 80px;
-}
-.cursor-pointer{
-    cursor: pointer;
-}
 .member-container{
     display: grid;
     height: 100vh;
@@ -431,6 +451,9 @@
 .charmbo-input{
     background-color: #FFFFFF;
 }
+.charmbo-input::placeholder{
+    color: #D6D5D1;
+}
 .charmbo-input:disabled{
     background-color: #FAF9F7;
 }
@@ -442,5 +465,8 @@
     border: 1px solid #F2C611;
     box-sizing: border-box;
     border-radius: 8px;
+}
+.flex-basis-1{
+    flex-basis: 100%;
 }
 </style>
