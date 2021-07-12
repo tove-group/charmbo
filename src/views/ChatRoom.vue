@@ -27,10 +27,10 @@
                 </div>
                 <div class="fw-semi-bold">{{ storeReceiver.userName }}</div>
             </div>
-            <div class="pt-2"><option-dialog v-if="!isCharmboRoom" @sentReport="sentReport" ref="optionDialog"></option-dialog></div>
+            <div class="pt-2 text-align-center" style="width:56px;"><option-dialog v-if="!isCharmboRoom" @sentReport="sentReport" ref="optionDialog"></option-dialog></div>
         </div>
         <div style="overflow-y: scroll;" id="messageContainer" @click="showEmoji = false">
-        <v-card color="#FAF9F7" flat class="d-flex flex-column pt-3">
+            <v-card color="#FAF9F7" flat class="d-flex flex-column pt-3">
                 <v-btn v-if="storeReceiver.message && storeReceiver.message.length==0 && !isCharmboRoom" text color="#7E7E7E" class="mb-5">
                     向對方打聲招呼~
                 </v-btn>
@@ -54,7 +54,7 @@
                             storeReceiver.message[index - 1].createdAt,
                             item.createdAt
                         )">
-                    <div class="date">
+                    <div class="date text-align-center">
                         {{ dayFormate(item.createdAt) }}
                     </div>
                     </div>
@@ -100,55 +100,56 @@
                     </div>
                     </div>
                 </div> -->
-                <div v-if="storeReceiver.isLeft" class="chatroom-leave-message">喔歐， {{ storeReceiver.userName }} 已離開聊天室<br>
+                <div v-if="storeReceiver.isLeft" class="chatroom-leave-message text-align-center">喔歐， {{ storeReceiver.userName }} 已離開聊天室<br>
                     聊天室將於一天後關閉喔</div>
-        </v-card>
+            </v-card>
         </div>
-    <div v-if="!isCharmboRoom" class="flex-grow-0 tool-bar">
-        <div class="tool-emoji py-5 pl-5 pr-2">
+    <div v-if="!isCharmboRoom" class="tool-bar d-flex align-center pa-2">
+        <div v-if="!isTyping" class="pa-1 ml-2">
+            <v-img
+                :src="require('../assets/img/chatroom/image.svg')"
+                height="24"
+                width="24"
+                @click="imgClickHandle"/>
+            <input
+                v-show="false"
+                ref="finput"
+                type="file"
+                accept="image/png, image/jpeg, image/bmp"
+                @change="sendImages(null,$event)"/>
+        </div>
+        <div v-if="!isTyping" class="tool-emoji pa-1 mx-1">
             <v-img
             @click="showEmoji = !showEmoji"
             :src="require('../assets/img/chatroom/emoji.svg')"
-            height="28"
-            width="28"
+            height="24"
+            width="24"
             />
         </div>
-        <div class="tool-photo py-5 px-2">
-            <v-file-input
-                class="my-0 py-0 "
-                @change="sendImages()"
-                accept="image/png, image/jpeg, image/bmp"
-                prepend-icon="mdi-image"
-                v-model="images"
-                height="28"
-                hide-input
-            >
-            </v-file-input>
+        <div class="tool-text py-2 flex-grow-1 ml-1">
+            <input
+                id="input"
+                v-model="msg.content"
+                placeholder="輸入訊息..."
+                type="text"
+                class="textbox charmbo-bgcolor-white"
+                autocomplete="off"
+                @focus="startTyping"
+                @blur="stopTyping"
+                @keydown="scrollToEnd"
+                @click="scrollToEnd"
+                @keydown.stop.prevent.enter="send"/>
         </div>
-        <div class="tool-text py-5"><input
-                        @focus="startTyping"
-                        @blur="stopTyping"
-                        @keydown="scrollToEnd"
-                        @click="scrollToEnd"
-                        @keydown.stop.prevent.enter="send"
-                        id="input"
-                        v-model="msg.content"
-                        placeholder="輸入訊息..."
-                        type="text"
-                        class="textbox"
-                    />
-        </div>
-        <div class="tool-sent py-5 px-3">
+        <div class="tool-sent py-1 px-2">
             <v-img
             @click="send"
             :src="require('../assets/img/chatroom/send.svg')"
-            class="pl-3"
-            height="28"
-            width="28"
+            height="40"
+            width="40"
             />
         </div>
-        <div v-show="showEmoji" class="tool-emoji-panel">
-            <div class="btnLine">
+        <!-- <div v-show="showEmoji" class="tool-emoji-panel">
+            <div class="text-align-center">
                     <div
                         :class="emojiOn ? 'btn-on' : 'btn-off'"
                         @click="emojiOn = true"
@@ -193,14 +194,14 @@
                         </v-row>
                     </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <user-info-dialog :user="friendDetailData" :dialog.sync="infoDialog" :loading="loadingFriendInfo"></user-info-dialog>
     </div>
 </template>
 <script>
 import imageCompression from 'browser-image-compression';
-import { VEmojiPicker } from 'v-emoji-picker';
+// import { VEmojiPicker } from 'v-emoji-picker';
 import InfiniteLoading from 'vue-infinite-loading';
 import axios from 'axios';
 import { debounce } from "lodash";
@@ -209,7 +210,7 @@ import UserInfoDialog from '../components/UserInfoDialog.vue';
 import CharmboMessage from '../components/CharmboMessage.vue';
 export default {
     components: {
-        VEmojiPicker,
+        // VEmojiPicker,
         InfiniteLoading,
         OptionDialog,
         UserInfoDialog,
@@ -217,31 +218,32 @@ export default {
     },
     data() {
         return {
-        msg: {
-            name: 'Angus',
-            type: true,
-            time: Date.now(),
-            content: '',
-        },
-        images: null,
-        imgDialog: false,
-        selectedImg: null,
-        showEmoji: false,
-        emojiOn: true,
-        searchKey: '',
-        gifs:[],
-        gif:'',
-        showScrollBtn:false,
-        infoDialog:false,
-        friendDetailData:{
-            pictures:{
-            main:{},
-            others:{}
+            msg: {
+                name: 'Angus',
+                type: true,
+                time: Date.now(),
+                content: '',
             },
-            interestlist:[]
-        },
-        loadingFriendInfo:false,
-        prevLastSeenMessageTimeStamp: null,
+            images: null,
+            imgDialog: false,
+            selectedImg: null,
+            showEmoji: false,
+            emojiOn: true,
+            searchKey: '',
+            gifs:[],
+            gif:'',
+            showScrollBtn:false,
+            infoDialog:false,
+            friendDetailData:{
+                pictures:{
+                main:{},
+                others:{}
+                },
+                interestlist:[]
+            },
+            loadingFriendInfo:false,
+            prevLastSeenMessageTimeStamp: null,
+            isTyping: false,
         }
     },
     computed: {
@@ -324,11 +326,15 @@ export default {
             this.scrollToEnd();
         }
         },
-        async sendImages(url=undefined) {
+        async sendImages(url=undefined, e=null) {
         //submit images
         //images : this.images
         console.log('send images');
-        const imageFile = this.images;
+        //const imageFile = this.images;
+        let imageFile = null;
+        if(e)
+            imageFile = e.target.files[0] || e.dataTransfer.files[0];
+        console.log(e,imageFile)
         const options = {
             maxSizeMB: 0.2,
             maxWidthOrHeight: 600,
@@ -408,24 +414,26 @@ export default {
         }
         },
         stopTyping() {
-        console.log('stopTyping');
-        const vm = this;
-        const receiver = this.storeReceiver;
-        this.$socket.client.emit('typing', {
-            receiverChatId: receiver._id,
-            senderChatId: vm.$store.state.userinfo._id,
-            isTyping: false,
-        });
+            this.isTyping = false;
+            console.log('stopTyping');
+            const vm = this;
+            const receiver = this.storeReceiver;
+            this.$socket.client.emit('typing', {
+                receiverChatId: receiver._id,
+                senderChatId: vm.$store.state.userinfo._id,
+                isTyping: false,
+            });
         },
         startTyping() {
-        console.log('startTyping');
-        const vm = this;
-        const receiver = this.storeReceiver;
-        this.$socket.client.emit('typing', {
-            receiverChatId: receiver._id,
-            senderChatId: vm.$store.state.userinfo._id,
-            isTyping: true,
-        });
+            this.isTyping = true;
+            console.log('startTyping');
+            const vm = this;
+            const receiver = this.storeReceiver;
+            this.$socket.client.emit('typing', {
+                receiverChatId: receiver._id,
+                senderChatId: vm.$store.state.userinfo._id,
+                isTyping: true,
+            });
         },
         scrollToEnd() {
         const container = document.getElementById('messageContainer');
@@ -594,8 +602,12 @@ export default {
         return 'message-body';
         },
         charmboMessageClick(item){
-        if(item.image.file !== null)
-            this.zoomImg(item.image);
+            if(item.image.file !== null)
+                this.zoomImg(item.image);
+        },
+        imgClickHandle(){
+            console.log(this.$refs.finput)
+            this.$refs.finput.click();
         }
     },
     beforeRouteEnter(to, from, next) {
@@ -672,14 +684,10 @@ export default {
     color: #747070;
     font-size: 11px;
     line-height: 13px;
-    text-align: center;
     padding: 8px 12px;
     border: 1px solid #D6D5D1;
     box-sizing: border-box;
     border-radius: 25px;
-}
-.btnLine {
-    text-align: center;
 }
 .btn-on {
     display: inline-block;
@@ -723,11 +731,9 @@ export default {
     gap: 16px;
 }
 .tool-bar{
-    display: grid;
+    /* display: grid;
     grid-template-rows: 72px auto;
-    grid-template-columns: auto auto 1fr auto;
-    background-color:#FFFFFF;
-    border: 1px solid #D6D5D1;
+    grid-template-columns: auto auto 1fr auto; */
 }
 .tool-emoji{
     vertical-align: middle;
@@ -743,7 +749,6 @@ export default {
 .chatroom-leave-message{
     font-size: 12px;
     color: #7E7E7E;
-    text-align: center;
 }
 .message-container{
     position: relative;
@@ -772,16 +777,22 @@ div.page-chatroom .header-shadow{
 }
 .textbox{
     width: 100%;
-    background-color: #FAF9F7;
     box-sizing: border-box;
     border: 1px solid #D6D5D1;
-    height: 32px;
-    border-radius: 16px;
+    height: 46px;
+    border-radius: 20px;
     padding: 12px;
+}
+.textbox::placeholder{
+    color: #D6D5D1;
+    font-weight: 900;
 }
 .message-room-header{
     /* height:80px; */
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+}
+input:focus{
+    outline: 0px;
 }
 @keyframes bounce {
     0%,
