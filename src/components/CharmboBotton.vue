@@ -47,6 +47,7 @@ export default {
 }
 .outline{
     color:#F2C611;
+    background:#FFFFFF;
     border: 2px solid #D6D5D1;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
 }

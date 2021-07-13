@@ -38,3 +38,8 @@
 .cursor-pointer { cursor: pointer; }
 .charmbo-scroll {overflow-y: scroll;}
 .charmbo-scroll::-webkit-scrollbar { display: none;}
+.v-dialog.img-dialog{
+    margin-left: 0px;
+    margin-right: 0px;
+    box-shadow: none;
+}

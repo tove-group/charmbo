@@ -69,19 +69,20 @@
                 <v-dialog
                     v-if="selectedImg"
                     v-model="imgDialog"
-                    max-width="350px"
+                    content-class="img-dialog"
+                    overlay-color="#000000"
+                    overlay-opacity="0.6"
                 >
                     <v-card>
-                    <v-card-title style="font-size: 0.8em; padding: 5px;">
-                        {{ selectedImg.fileName }}
-                    </v-card-title>
                     <v-img
-                        max-width="350px"
                         :src="selectedImg.file"
                         v-bind:alt="selectedImg.fileName"
                     >
                     </v-img>
-                    </v-card> 
+                    </v-card>
+                    <div @click="imgDialog = false" class="text-align-center mt-8">
+                        <charmbo-botton outline>繼續聊天</charmbo-botton>
+                    </div>
                 </v-dialog>
                 <!-- <div v-for="(item) in storeReceiver.message" :key="item.id">
                     <div v-if="getUnreadStatus(item.createdAt)" class="mb-5 unreadBar">
@@ -205,16 +206,18 @@ import imageCompression from 'browser-image-compression';
 import InfiniteLoading from 'vue-infinite-loading';
 import axios from 'axios';
 import { debounce } from "lodash";
-import OptionDialog from '../components/ChatroomOptionDialog.vue';
-import UserInfoDialog from '../components/UserInfoDialog.vue';
-import CharmboMessage from '../components/CharmboMessage.vue';
+import OptionDialog from '@/components/ChatroomOptionDialog.vue';
+import UserInfoDialog from '@/components/UserInfoDialog.vue';
+import CharmboMessage from '@/components/CharmboMessage.vue';
+import CharmboBotton from '@/components/CharmboBotton.vue';
 export default {
     components: {
         // VEmojiPicker,
         InfiniteLoading,
         OptionDialog,
         UserInfoDialog,
-        CharmboMessage
+        CharmboMessage,
+        CharmboBotton
     },
     data() {
         return {
