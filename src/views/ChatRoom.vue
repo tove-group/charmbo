@@ -7,7 +7,7 @@
                 >mdi-arrow-down-bold-circle
             </v-icon>
         </div>
-        <div class="message-room-header d-flex justify-space-between charmbo-bgcolor-white px-8 py-4">
+        <div class="charmbo-header-shadow d-flex justify-space-between charmbo-bgcolor-white px-8 py-4">
             <div @click="$router.push({ name: 'chatList' })">
                 <v-img
                     :src="require('../assets/img/back.svg')"
@@ -29,7 +29,7 @@
             </div>
             <div class="pt-2 text-align-center" style="width:56px;"><option-dialog v-if="!isCharmboRoom" @sentReport="sentReport" ref="optionDialog"></option-dialog></div>
         </div>
-        <div style="overflow-y: scroll;" id="messageContainer" @click="showEmoji = false">
+        <div style="overflow-y: scroll;" id="messageContainer">
             <v-card color="#FAF9F7" flat class="d-flex flex-column pt-3">
                 <v-btn v-if="storeReceiver.message && storeReceiver.message.length==0 && !isCharmboRoom" text color="#7E7E7E" class="mb-5">
                     向對方打聲招呼~
@@ -84,6 +84,52 @@
                         <charmbo-botton outline>繼續聊天</charmbo-botton>
                     </div>
                 </v-dialog>
+                <v-dialog
+                    v-model="showGifDialog"
+                    content-class="gif-dialog"
+                    overlay-color="#000000"
+                    overlay-opacity="0.6"
+                    transition="dialog-bottom-transition"
+                >
+                    <v-card
+                        class="pa-2 gif-card"
+                        >
+                        <div></div>
+                        <div class="search-bar d-flex align-center mt-2 mb-1">
+                            <div class="mr-3">
+                            <v-img
+                                :src="require('../assets/img/search.svg')"
+                                height="16"
+                                width="16"
+                            />
+                            </div>
+                            <input class="gif-input my-2 flex-grow-1" placeholder="搜尋GIF" v-model="searchKey">
+                            <v-icon
+                            v-show="searchKey != ''"
+                            @click= "searchKey = ''"
+                            color="black"
+                            >mdi-window-close</v-icon>    
+                        </div>
+                        <div class="d-flex flex-wrap charmbo-scroll">
+                            <div v-for="(gif, index) in gifs" :key="index" class="pa-1" style="width:50%">
+                                <v-img class="gifImg" :src="gif" @click="sendImages(gif),showGifDialog = false">
+                                <template v-slot:placeholder>
+                                    <v-row
+                                    class="fill-height ma-0"
+                                    align="center"
+                                    justify="center"
+                                    >
+                                    <v-progress-circular
+                                        indeterminate
+                                        color="grey"
+                                    ></v-progress-circular>
+                                    </v-row>
+                                </template>
+                                </v-img>
+                            </div>
+                        </div>
+                    </v-card>
+                </v-dialog>
                 <!-- <div v-for="(item) in storeReceiver.message" :key="item.id">
                     <div v-if="getUnreadStatus(item.createdAt)" class="mb-5 unreadBar">
                     <v-icon left small class="unreadBar-icon">
@@ -102,8 +148,10 @@
                     </div>
                 </div> -->
                 <div v-if="storeReceiver.isLeft" class="chatroom-leave-message text-align-center">喔歐， {{ storeReceiver.userName }} 已離開聊天室<br>
-                    聊天室將於一天後關閉喔</div>
+                    聊天室將於一天後關閉喔
+                </div>
             </v-card>
+
         </div>
     <div v-if="!isCharmboRoom" class="tool-bar d-flex align-center pa-2">
         <div v-if="!isTyping" class="pa-1 ml-2">
@@ -121,7 +169,7 @@
         </div>
         <div v-if="!isTyping" class="tool-emoji pa-1 mx-1">
             <v-img
-            @click="showEmoji = !showEmoji"
+            @click="showGifDialog = !showGifDialog"
             :src="require('../assets/img/chatroom/emoji.svg')"
             height="24"
             width="24"
@@ -149,60 +197,13 @@
             width="40"
             />
         </div>
-        <!-- <div v-show="showEmoji" class="tool-emoji-panel">
-            <div class="text-align-center">
-                    <div
-                        :class="emojiOn ? 'btn-on' : 'btn-off'"
-                        @click="emojiOn = true"
-                    >
-                        Emoji
-                    </div>
-                    <div
-                        :class="emojiOn ? 'btn-off' : 'btn-on'"
-                        @click="emojiOn = false"
-                    >
-                        GIF
-                    </div>
-                    
-                    <VEmojiPicker v-show="emojiOn" @select="selectEmoji" />
-                    <div v-show="!emojiOn" class="div-gif">
-                        <v-row>
-                        <v-col cols="12" style="padding-bottom: 0px;">
-                            <v-text-field
-                            append-icon="mdi-magnify"
-                            label="Search GIF"
-                            solo
-                            dense
-                            v-model="searchKey"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="6" v-for="(gif, index) in gifs" :key="index" class="pa-2">
-                            <v-img class="gifImg" :src="gif" @click="sendImages(gif)">
-                            <template v-slot:placeholder>
-                                <v-row
-                                class="fill-height ma-0"
-                                align="center"
-                                justify="center"
-                                >
-                                <v-progress-circular
-                                    indeterminate
-                                    color="grey"
-                                ></v-progress-circular>
-                                </v-row>
-                            </template>
-                            </v-img>
-                        </v-col>
-                        </v-row>
-                    </div>
-            </div>
-        </div> -->
+
     </div>
     <user-info-dialog :user="friendDetailData" :dialog.sync="infoDialog" :loading="loadingFriendInfo"></user-info-dialog>
     </div>
 </template>
 <script>
 import imageCompression from 'browser-image-compression';
-// import { VEmojiPicker } from 'v-emoji-picker';
 import InfiniteLoading from 'vue-infinite-loading';
 import axios from 'axios';
 import { debounce } from "lodash";
@@ -212,7 +213,6 @@ import CharmboMessage from '@/components/CharmboMessage.vue';
 import CharmboBotton from '@/components/CharmboBotton.vue';
 export default {
     components: {
-        // VEmojiPicker,
         InfiniteLoading,
         OptionDialog,
         UserInfoDialog,
@@ -230,8 +230,7 @@ export default {
             images: null,
             imgDialog: false,
             selectedImg: null,
-            showEmoji: false,
-            emojiOn: true,
+            showGifDialog: false,
             searchKey: '',
             gifs:[],
             gif:'',
@@ -714,11 +713,6 @@ export default {
     margin: 10px;
     cursor: pointer;
 }
-.div-gif {
-    height: 433px;
-    padding: 0 12px;
-    overflow: auto;
-}
 .gifImg:hover {
     -moz-transform: scale(1.05);
     -ms-transform: scale(1.05);
@@ -746,9 +740,6 @@ export default {
     vertical-align: middle;
     line-height: 32px;
 }
-.tool-emoji-panel{
-    grid-column: 1 / span 4;
-}
 .chatroom-leave-message{
     font-size: 12px;
     color: #7E7E7E;
@@ -775,9 +766,6 @@ export default {
     top: calc(100vh - 150px);
     left: calc(100%/2 - 18px);
 }
-div.page-chatroom .header-shadow{
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
-}
 .textbox{
     width: 100%;
     box-sizing: border-box;
@@ -790,12 +778,24 @@ div.page-chatroom .header-shadow{
     color: #D6D5D1;
     font-weight: 900;
 }
-.message-room-header{
-    /* height:80px; */
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
-}
 input:focus{
     outline: 0px;
+}
+.search-bar{
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid #D6D5D1;
+    padding:0px 12px;
+}
+.gif-input{
+    line-height: 16px;
+    font-size: 12px;
+    vertical-align: middle;
+}
+.gif-card{
+    display: grid;
+    height: 100%;
+    grid-template-rows: auto auto 1fr;
 }
 @keyframes bounce {
     0%,

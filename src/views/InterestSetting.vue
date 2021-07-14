@@ -1,6 +1,6 @@
 <template>
     <div class="page-grid max-width">
-        <div class="title-area py-2 mt-4">
+        <div class="po-relative text-align-center charmbo-header-shadow py-2 mt-4">
             <div
                 class="back-img ml-8 mt-3"
                 @click="update">
@@ -134,11 +134,6 @@
     }
 </script>
 <style>
-.title-area{
-    text-align: center;
-    position: relative;
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
-}
 .back-img{
     position: absolute;
 }

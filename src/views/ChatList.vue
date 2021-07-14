@@ -1,6 +1,6 @@
 <template>
     <div class="page-chat-list max-width">
-    <div style="box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);">
+    <div class="charmbo-header-shadow">
         <div class="mt-16 d-flex justify-center"><div class="fw-semi-bold fs-20">對話</div></div>
         <div class="search-bar d-flex align-center mt-2 mb-1 mx-10">
             <div class="mr-3">

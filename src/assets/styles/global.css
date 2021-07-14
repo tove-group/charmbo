@@ -36,10 +36,18 @@
 .po-relative { position: relative; }
 .po-absolute { position: absolute; }
 .cursor-pointer { cursor: pointer; }
-.charmbo-scroll {overflow-y: scroll;}
-.charmbo-scroll::-webkit-scrollbar { display: none;}
+.charmbo-header-shadow { box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1); }
+.charmbo-scroll {overflow-y: scroll; }
+.charmbo-scroll::-webkit-scrollbar { display: none; }
 .v-dialog.img-dialog{
     margin-left: 0px;
     margin-right: 0px;
     box-shadow: none;
+}
+.v-dialog.gif-dialog{
+    margin: 0px;
+    height: 70vh;
+    box-shadow: none;
+    align-self: flex-end;
+    border-radius: 20px 20px 0px 0px;
 }

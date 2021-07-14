@@ -1,7 +1,7 @@
 <template>
     <div class="member-container max-width">
         <div class="charmbo-scroll">
-            <div class="profile-bg pt-7 pb-3" style="box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);">
+            <div class="profile-bg pt-7 pb-3 charmbo-header-shadow">
                 <div class="rel" @click="$router.push({name: 'photoEditor'})">
                     <v-img 
                         width="120"
