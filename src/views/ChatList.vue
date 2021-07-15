@@ -61,13 +61,10 @@
                 </div>
             </div>
             <div v-else-if="!loading && searchString"><div class="text-center mt-5 no-result-text">沒有符合的搜尋結果耶<br>你再仔細想想他的名字？</div></div>
-            <div v-else class="chatListLoadingSpinner">
-                <v-progress-circular
-                    :size="50"
-                    :width="7"
-                    indeterminate
-                    color="grey"
-                ></v-progress-circular>
+            <div v-else class="chatListLoadingSpinner d-flex justify-center align-center">
+                <lottie-animation
+                    :animationData="require('@/assets/loading.json')"
+                    :loop="true"/>
             </div>
         </div>
         <footer-bar activeTab="chatList"></footer-bar>
@@ -77,11 +74,13 @@
 import RoomItem from '@/components/RoomItem.vue'
 import FooterBar from '@/components/Footer.vue';
 import CharmboBotton from '@/components/CharmboBotton.vue';
+import LottieAnimation from 'lottie-web-vue';
 export default {
     components:{
         RoomItem,
         FooterBar,
-        CharmboBotton
+        CharmboBotton,
+        LottieAnimation
     },
     data() {
         return {
@@ -167,9 +166,7 @@ input:focus{
     cursor: pointer;
 }
 .chatListLoadingSpinner {
-    display: flex;
-    justify-content: center;
-    margin-top: 50%;
+    height:calc(100% - 80px);
 }
 .roomlist-move{
     transition: all 0.8s ease;
