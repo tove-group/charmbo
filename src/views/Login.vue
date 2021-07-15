@@ -1,12 +1,23 @@
 <template>
-  <div class="hero max-width page-login">
-    <div class="text-center">
-      <div class="logo mb-8">logo</div>
-      <p class="sub-title">Charmbo</p>
-      <p class="sub-title">這個是slogan文案</p>
+  <div class="hero max-width charmbo-bgcolor-gray">
+    <div class="d-flex flex-column align-center">
+      <div>
+        <v-img
+            :src="require('@/assets/logo.png')"
+            height="144"
+            width="144"
+        />
+      </div>
+      <div>
+        <v-img
+            :src="require('@/assets/charmbo.svg')"
+            height="37"
+            width="213"
+        />
+      </div>
       <div class="space130"></div>
-      <login-btn>使用 Google 註冊/登入</login-btn>
-      <p class="login-change mt-5 text-center">您上次使用Google帳號登入</p>
+      <p class="mt-5 charmbo-text-color3 fs-12">您上次使用 Google 帳號登入</p>
+      <login-btn>使用 Google 登入</login-btn>
       <v-row align="center" class="mt-10 max-width">
         <v-col cols="12" sm="9">
         <v-select
@@ -21,6 +32,7 @@
           <v-btn v-else>登入</v-btn>
         </v-col>
       </v-row>
+      <div class="charmbo-text-color3 fs-12 mt-4">一旦登入即代表您同意我們的使用者條款及隱私權政策</div>
     </div>
   </div>
 </template>
@@ -104,15 +116,11 @@
 </script>
 <style>
   .hero {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-  }
-  .hero .lead {
-    font-weight: 200;
-    font-size: 1.5rem;
   }
   .logo {
     background: #D1D1D1;
@@ -121,37 +129,7 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .text-center {
-    text-align: center;
-  }
-  .sub-title{
-    border-radius: 8px;
-    width: 264px;
-    height: 32px;
-    margin-left: auto;
-    margin-right: auto;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 32px;
-    color: #FFFFFF;
-  }
   .space130{
     height:130px;
-  }
-  .page-login{
-    background:rgba(63, 62, 62, 0.5);;
-  }
-  .login-change{
-    font-family: SF Pro Text;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 17px;
-    line-height: 20px;
-    align-items: center;
-    color: #FFFFFF;
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    cursor: pointer;
   }
 </style>
