@@ -507,101 +507,100 @@ export default {
         this.msg.content = resultText;
         },
         getImg() {
-        let item = this.storeReceiver;
-        if (!item.pictures) {
-            return '';
-        }
-        if(item && item.pictures && item.pictures.main && item.pictures.main.url){
+            let item = this.storeReceiver;
+            if (!item.pictures) {
+                return '';
+            }
+            if(item && item.pictures && item.pictures.main && item.pictures.main.url){
+                return item.pictures.main.url;
+            }
+            let type = item._id || "1234567890abcdef".charAt(Math.floor(Math.random()*16));
+            let sex = item.sex;
+            if(typeof sex == "undefined" || sex == null)
+                sex = "01".charAt(Math.floor(Math.random()*2));
+            let s = sex == 0 ? 'g' : 'b';
+            let e = type.charAt(type.length - 1);
+            item.pictures.main.url = require('../assets/img/avatars/'+s+e+'.svg');
             return item.pictures.main.url;
-        }
-        let type = item._id || "1234567890abcdef".charAt(Math.floor(Math.random()*16));
-        let sex = item.sex;
-        if(typeof sex == "undefined" || sex == null)
-            sex = "01".charAt(Math.floor(Math.random()*2));
-        let s = sex == 0 ? 'g' : 'b';
-        let e = type.charAt(type.length - 1);
-        item.pictures.main.url = require('../assets/img/avatars/'+s+e+'.svg');
-        return item.pictures.main.url;
         },
         getGif() {
-        let search_url = '';
-        if (this.searchKey) {
-            search_url = 'https://api.tenor.com/v1/search?q=' + this.searchKey + '&key=Y760PDCLGW8P' + '&limit=' + 10;
-        } else {
-            // default trending gifs
-            search_url = 'https://api.tenor.com/v1/trending?key=Y760PDCLGW8P' + '&limit=' + 10;
-        }
-        console.log(search_url);
-        axios.get(`${search_url}`).then((response) => {
-            console.log(response.data);
-            this.gifs = response.data.results.map(result => result.media[0].tinygif.url);
-        });
+            let search_url = '';
+            if (this.searchKey) {
+                search_url = 'https://api.tenor.com/v1/search?q=' + this.searchKey + '&key=Y760PDCLGW8P' + '&limit=' + 10;
+            } else {
+                // default trending gifs
+                search_url = 'https://api.tenor.com/v1/trending?key=Y760PDCLGW8P' + '&limit=' + 10;
+            }
+            console.log(search_url);
+            axios.get(`${search_url}`).then((response) => {
+                console.log(response.data);
+                this.gifs = response.data.results.map(result => result.media[0].tinygif.url);
+            });
         },
         zoomImg(img) {
-        this.imgDialog = true;
-        this.selectedImg = img;
+            this.imgDialog = true;
+            this.selectedImg = img;
         },
         sentReport(param){
-        Object.assign(param,{deleteId: this.storeReceiver._id})
-        console.log(param);
-        //call api
-        this.$store.dispatch('actionUnfriend', param).then(() => {
-            
-        });
-        this.$refs.optionDialog.sentOK();
+            Object.assign(param,{deleteId: this.storeReceiver._id})
+            console.log(param);
+            //call api
+            this.$store.dispatch('actionUnfriend', param).then(() => {
+            });
+            this.$refs.optionDialog.sentOK();
         },
         openInfoDialog(){
-        let vm = this;
-        this.loadingFriendInfo = true;
-        this.infoDialog = true;
-        this.$store.dispatch('actionFriendinfo', this.storeReceiver._id).then((response) => {
-            vm.friendDetailData = response;
-            vm.loadingFriendInfo = false;
-        });
+            let vm = this;
+            this.loadingFriendInfo = true;
+            this.infoDialog = true;
+            this.$store.dispatch('actionFriendinfo', this.storeReceiver._id).then((response) => {
+                vm.friendDetailData = response;
+                vm.loadingFriendInfo = false;
+            });
         },
         getUnreadStatus(messageTimeStamp) {
-        if (messageTimeStamp) {
-            const lastIdx = this.storeReceiver.message.length - 1;
-            if (
-            lastIdx >= 0 &&
-            this.storeReceiver.message[lastIdx].createdAt !== messageTimeStamp && //not last message
-            this.storeReceiver.lastSeenMessageTimeStamp === messageTimeStamp && // match lastSeenMessageTimeStamp in vuex and DB
-            this.prevLastSeenMessageTimeStamp > messageTimeStamp // the timeStamp should be smaller than the last one when first enter chatRoom
-            ) {
-            return true;
+            if (messageTimeStamp) {
+                const lastIdx = this.storeReceiver.message.length - 1;
+                if (
+                lastIdx >= 0 &&
+                this.storeReceiver.message[lastIdx].createdAt !== messageTimeStamp && //not last message
+                this.storeReceiver.lastSeenMessageTimeStamp === messageTimeStamp && // match lastSeenMessageTimeStamp in vuex and DB
+                this.prevLastSeenMessageTimeStamp > messageTimeStamp // the timeStamp should be smaller than the last one when first enter chatRoom
+                ) {
+                return true;
+                }
             }
-        }
-        return false;
+            return false;
         },
         saveLastSeenMessageTimestamp() {
-        console.log('onbeforeUnload')
-        if (this.storeReceiver.message) {
-            const lastIdx = this.storeReceiver.message.length - 1;
-            if (lastIdx >= 0) {
-            // this.$store.dispatch('actionSaveLastSeenMessageTimeStamp', {
-            //   lastSeenMessageTimeStamp: this.storeReceiver.message[lastIdx].createdAt,
-            //   id: this.storeReceiver._id,
-            // });
+            console.log('onbeforeUnload')
+            if (this.storeReceiver.message) {
+                const lastIdx = this.storeReceiver.message.length - 1;
+                if (lastIdx >= 0 && !this.isCharmboRoom) {
+                    this.$store.dispatch('actionSaveLastSeenMessageTimeStamp', {
+                    lastSeenMessageTimeStamp: this.storeReceiver.message[lastIdx].createdAt,
+                    id: this.storeReceiver._id,
+                    });
+                }
             }
-        }
         },
         getMessageType(index){
-        let preMessageFrom = index === 0 ? '' : this.storeReceiver.message[index-1].receiver;
-        let thisMessageFrom = this.storeReceiver.message[index].receiver;
-        let nextMessageFrom = index === this.storeReceiver.message.length -1 ? '' : this.storeReceiver.message[index+1].receiver
-        let isReceive = this.isReceiver(this.storeReceiver.message[index].receiver)
-        if(isReceive){
-            if(nextMessageFrom !== thisMessageFrom || this.datesAreNotSameDay(this.storeReceiver.message[index].createdAt,this.storeReceiver.message[index+1].createdAt))
-            return 'message-bottem';
-            if(preMessageFrom !== thisMessageFrom)
-            return 'message-top';
+            let preMessageFrom = index === 0 ? '' : this.storeReceiver.message[index-1].receiver;
+            let thisMessageFrom = this.storeReceiver.message[index].receiver;
+            let nextMessageFrom = index === this.storeReceiver.message.length -1 ? '' : this.storeReceiver.message[index+1].receiver
+            let isReceive = this.isReceiver(this.storeReceiver.message[index].receiver)
+            if(isReceive){
+                if(nextMessageFrom !== thisMessageFrom || this.datesAreNotSameDay(this.storeReceiver.message[index].createdAt,this.storeReceiver.message[index+1].createdAt))
+                    return 'message-bottem';
+                if(preMessageFrom !== thisMessageFrom)
+                    return 'message-top';
+                return 'message-body';
+            }
+            if(preMessageFrom != thisMessageFrom || this.datesAreNotSameDay(this.storeReceiver.message[index].createdAt,this.storeReceiver.message[index-1].createdAt))
+                return 'message-top';
+            if(nextMessageFrom !== thisMessageFrom)
+                return 'message-bottem';
             return 'message-body';
-        }
-        if(preMessageFrom != thisMessageFrom || this.datesAreNotSameDay(this.storeReceiver.message[index].createdAt,this.storeReceiver.message[index-1].createdAt))
-            return 'message-top';
-        if(nextMessageFrom !== thisMessageFrom)
-            return 'message-bottem';
-        return 'message-body';
         },
         charmboMessageClick(item){
             if(item.image.file !== null)
@@ -614,24 +613,25 @@ export default {
     },
     beforeRouteEnter(to, from, next) {
         next(vm => {
-        !vm.$route.query.id && vm.$router.push({ name: 'chatList' });
-        if (from.path !== '/chatlist') {
-            vm.$store.dispatch('actionFriendList');
-        }
+            !vm.$route.query.id && vm.$router.push({ name: 'chatList' });
+            if (from.path !== '/chatlist') {
+                vm.$store.dispatch('actionFriendList');
+            }
         })
     },
     async beforeRouteLeave (to, from, next) {
         if (this.storeReceiver.message) {
-        const lastIdx = this.storeReceiver.message.length - 1;
-        if (
-            lastIdx >= 0 &&
-            this.storeReceiver.lastSeenMessageTimeStamp !== this.storeReceiver.message[lastIdx].createdAt
-        ) {
-            // await this.$store.dispatch('actionSaveLastSeenMessageTimeStamp', {
-            //   lastSeenMessageTimeStamp: this.storeReceiver.message[lastIdx].createdAt,
-            //   id: this.storeReceiver._id,
-            // })
-        }
+            const lastIdx = this.storeReceiver.message.length - 1;
+            if (
+                lastIdx >= 0 &&
+                !this.isCharmboRoom &&
+                this.storeReceiver.lastSeenMessageTimeStamp !== this.storeReceiver.message[lastIdx].createdAt
+            ) {
+                await this.$store.dispatch('actionSaveLastSeenMessageTimeStamp', {
+                    lastSeenMessageTimeStamp: this.storeReceiver.message[lastIdx].createdAt,
+                    id: this.storeReceiver._id,
+                })
+            }
         }
         next();
     },
