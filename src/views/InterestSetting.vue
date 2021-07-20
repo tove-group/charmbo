@@ -2,7 +2,7 @@
     <div class="page-grid max-width">
         <div class="po-relative text-align-center charmbo-header-shadow py-2 mt-4">
             <div
-                class="back-img ml-8 mt-3"
+                class="po-absolute ml-8 mt-3"
                 @click="update">
                 <v-img
                     :src="require('@/assets/img/back.svg')"
@@ -134,9 +134,6 @@
     }
 </script>
 <style>
-.back-img{
-    position: absolute;
-}
 .interest-btn{
     border: 1px solid #D6D5D5;
     box-sizing: border-box;

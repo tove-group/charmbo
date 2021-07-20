@@ -1,59 +1,93 @@
 <template>
     <div class="max-width">
-        <div class="title-area">
-            <div class="setting-title">設定</div>
-            <div style="text-align:left;">
-                <v-icon
-                    large
-                    class="icon-back"
-                    color="black"
-                    @click="$router.push({name: 'profile'})"
-                >mdi-chevron-left</v-icon>
+        <div class="po-relative text-align-center">
+            <div
+                class="po-absolute ml-8 mt-3"
+                @click="$router.push({name: 'profile'})">
+                <v-img
+                    :src="require('@/assets/img/back.svg')"
+                    height="56"
+                    width="56"
+                />
+            </div>
+            <div class="fw-semi-bold fs-20 py-6">設定</div>
+        </div>
+        <div class="charmbo-bgcolor-gray">
+            <div class="charmbo-bgcolor-white fs14 pl-8 py-1 charmbo-header-shadow">已連結帳號</div>
+            <div class="pl-12 py-4">
+                <div class="fw-semi-bold">{{user.provider}}</div>
+                <div class="fw-semi-bold charmbo-text-color3">{{user.email}}</div>
+            </div>
+            <div class="charmbo-bgcolor-white fs14 pl-8 py-1 charmbo-header-shadow">通知</div>
+            <div class="pl-12 pr-8 py-4">
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">訊息通知</div>
+                    <charmbo-switch></charmbo-switch>
+                </div>
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">系統通知</div>
+                    <charmbo-switch></charmbo-switch>
+                </div>
+            </div>
+            <div class="charmbo-bgcolor-white fs14 pl-8 py-1 charmbo-header-shadow">法務</div>
+            <div class="pl-12 pr-8 py-4">
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">使用者條款</div>
+                    <v-icon
+                        color="black"
+                    >mdi-chevron-right</v-icon>
+                </div>
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">隱私權政策</div>
+                    <v-icon
+                        color="black"
+                    >mdi-chevron-right</v-icon>
+                </div>
+            </div>
+            <div class="charmbo-bgcolor-white fs14 pl-8 py-1 charmbo-header-shadow">問題回報</div>
+            <div class="pl-12 pr-8 py-4">
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">分享Charmbo</div>
+                    <v-icon
+                        color="black"
+                    >mdi-chevron-right</v-icon>
+                </div>
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">問題舉報</div>
+                    <v-icon
+                        color="black"
+                    >mdi-chevron-right</v-icon>
+                </div>
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">檢舉申訴</div>
+                    <v-icon
+                        color="black"
+                    >mdi-chevron-right</v-icon>
+                </div>
+            </div>
+            <div class="charmbo-bgcolor-white fs14 pl-8 py-1 charmbo-header-shadow">其他</div>
+            <div class="pl-12 pr-8 py-4">
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="" @click="logout">登出</div>
+                    <v-icon
+                        color="black"
+                    >mdi-chevron-right</v-icon>
+                </div>
+                <div class="d-flex justify-space-between align-center py-2">
+                    <div class="">刪除帳號</div>
+                    <v-icon
+                        color="black"
+                    >mdi-chevron-right</v-icon>
+                </div>
             </div>
         </div>
-        
-        <div class="setting-item fs12">已連結帳號</div>
-        <div class="setting-box-content">
-            <div>{{user.provider}}</div>
-            <div class="fs12">{{user.email}}</div>
-        </div>
-        <div class="setting-item fs12">通知</div>
-        <div class="setting-box-content">
-            <div class="d-flex justify-space-between">
-            <div class="mt-1">訊息通知</div>
-            <v-switch class="setting-switch"></v-switch>
-            </div>
-            <div class="d-flex justify-space-between">
-            <div class="mt-1">系統通知</div>
-            <v-switch class="setting-switch"></v-switch>
-            </div>
-        </div>
-        <div class="setting-item fs12">法務</div>
-        <div class="setting-box-content">
-            <div class="d-flex justify-space-between">
-                <div class="mt-2">使用者條款</div>
-                <v-icon
-                    color="black"
-                >mdi-chevron-right</v-icon>
-            </div>
-            <div class="d-flex justify-space-between">
-                <div class="mt-2">隱私權政策</div>
-                <v-icon
-                    color="black"
-                >mdi-chevron-right</v-icon>
-            </div>
-        </div>
-        <div class="setting-item">問題舉報</div>
-        <div class="setting-item">分享Charmbo</div>
-        <div class="setting-item">刪除帳號</div>
-        <div @click="logout" class="setting-item">登出</div>
     </div>
 </template>
 <script>
-
+    import CharmboSwitch from '@/components/CharmboSwitch.vue';
     export default {
         components: {
-
+            CharmboSwitch
         },
         data(){
             return {
@@ -78,34 +112,4 @@
     }
 </script>
 <style>
-.title-area{
-    text-align: center;
-    position: relative;
-}
-.setting-title{
-    font-family: Noto Sans;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 36px;
-    letter-spacing: 1.5px;
-
-    width:100%;
-    position: absolute;
-    margin:30px auto;
-}
-.setting-item{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding:16px 0 4px 32px;
-}
-.setting-box-content{
-    padding:16px 0 4px 48px;
-}
-.fs12{
-    font-size: 12px;
-}
-.setting-switch{
-    margin: 0 0;
-}
-
 </style>
