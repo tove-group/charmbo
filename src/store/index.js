@@ -555,7 +555,7 @@ export default new Vuex.Store({
                     }
                 }).catch(err => {
                     console.log(err);
-                    router.push({ name: 'login' }).catch((error) => {console.log(error)});
+                    //router.push({ name: 'login' }).catch((error) => {console.log(error)});
                 })
             });
         },

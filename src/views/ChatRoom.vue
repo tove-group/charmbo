@@ -619,7 +619,7 @@ export default {
             }
         })
     },
-    async beforeRouteLeave (to, from, next) {
+    beforeRouteLeave (to, from, next) {
         if (this.storeReceiver.message) {
             const lastIdx = this.storeReceiver.message.length - 1;
             if (
@@ -627,7 +627,7 @@ export default {
                 !this.isCharmboRoom &&
                 this.storeReceiver.lastSeenMessageTimeStamp !== this.storeReceiver.message[lastIdx].createdAt
             ) {
-                await this.$store.dispatch('actionSaveLastSeenMessageTimeStamp', {
+                this.$store.dispatch('actionSaveLastSeenMessageTimeStamp', {
                     lastSeenMessageTimeStamp: this.storeReceiver.message[lastIdx].createdAt,
                     id: this.storeReceiver._id,
                 })
