@@ -84,7 +84,7 @@ input:focus + .slider {
     box-shadow: inset -5px 0px 4px rgba(0, 0, 0, 0.1);
 }
 
-input:checked + .slider:before {
+input:checked + .slider::before {
     -webkit-transform: translateX(23px);
     -ms-transform: translateX(23px);
     transform: translateX(23px);
@@ -95,7 +95,7 @@ input:checked + .slider:before {
     border-radius: 60px;
 }
 
-.slider.round:before {
+.slider.round::before {
     border-radius: 50%;
 }
 </style>

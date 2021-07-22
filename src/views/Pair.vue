@@ -1,15 +1,24 @@
 <template>
   <div class="page-pair max-width">
-    <div class="d-flex justify-space-between">
-      <div class="match-title">Charmbo!</div>
-      <v-icon
-          large
-          class="icon-back"
-          color="black"
-          @click="filterClick"
-      >mdi-filter-outline</v-icon>
+    <div class="d-flex justify-space-between align-center py-4 px-8">
+      <div>
+        <v-img
+            contain
+            :src="require('@/assets/charmbo.svg')"
+            width="160"
+        />
+      </div>
+      <div
+          class=""
+          @click="filterClick">
+          <v-img
+              :src="require('@/assets/img/filter.svg')"
+              height="56"
+              width="56"
+          />
+      </div>
     </div>
-    <div class="po-relative">
+    <div class="po-relative text-align-center">
       <filter-card
         :filterParam="filterParam"
         v-show="showFilter" class="po-absolute filter-card"></filter-card>
@@ -22,37 +31,68 @@
         ></v-progress-circular>
       </div>
       <div v-else-if="focusUser && !focusUser.default">
-        <v-card
-          class="mx-auto match-card"
-          max-width="326"
+        <div
+          class="mx-6 user-card"
         >
-          <v-img
-            :src="getImg(focusUser)"
-            height="300px"
-            class="pair-img"
-          ></v-img>
+          <div>
+            <v-img
+              contain
+              :src="getImg(focusUser)"
+            ></v-img>
+          </div>
+          <div class="d-flex justify-space-between pt-3 px-4">
+            <div class="fs-24">{{ focusUser.userName}}</div>
+            <div><v-img
+              contain
+              :src="sexIcon"
+            ></v-img></div>
+          </div>
+          <div class="d-flex fs-12 px-4">
+            <div class="mr-4">{{age}}</div>
+            <div class="mr-4">{{horoscope}}</div>
+            <div class="">{{focusUser.job}}</div>
+            <div class="ml-auto">距離幾公里</div>
+          </div>
+          <div class="px-4 pt-1 hobby-area d-flex flex-wrap">
+            <div v-for="(hobby, index) in focusUser.interestlist" class="match-hobby px-3 py-1 mr-2 mb-2" :key="index" :class="[nowColor]">{{hobby}}</div>
+          </div>
+          <div class="pb-5"></div>
           <user-info-dialog :user="focusUser" :dialog.sync="infoDialog"></user-info-dialog>
-          <v-btn icon style="float:right;" @click.stop="infoDialog = true">
+          <!-- <v-btn icon style="float:right;" @click.stop="infoDialog = true">
             <v-icon color="white">mdi-format-list-bulleted</v-icon>
-          </v-btn>
-          <div class="filter-div" :class="[filterColor]"></div>
-          <div class="match-data">
-            <div>{{ focusUser.userName}}</div>
-            <div class="d-flex justify-space-between">
-              <div class="fs12 mt-1">{{age}}</div>
-              <div class="fs12 mt-1">{{horoscope}}</div>
-              <div class="fs12 mt-1">{{focusUser.job}}</div>
-              <div class="fs12 mt-1">距離幾公里</div>
-            </div>
-            <div class="mt-2 mb-2 hobby-area">
-              <div v-for="(hobby, index) in focusUser.interestlist" class="match-hobby" :key="index" :class="[nowColor]">{{hobby}}</div>
-            </div>
+          </v-btn> -->
+          <!-- <div class="filter-div" :class="[filterColor]"></div> -->
+          <!-- <div class="match-data">
+            
+            
+
             <div class="d-flex justify-space-between pt-1 pb-1">
               <div @click="setAchieve(i)" class="rounded-circle achievement-icon" :class="[getColor(i)]" v-for="i in 5" :key="i"></div>
             </div>
+          </div> -->
+        </div>
+        <div class="d-flex justify-center my-5">
+          <div class="d-flex align-center justify-center  rounded-circle btn-shadow mx-7"
+                style="width:72px;height:72px"
+                @click="dislike">
+            <img
+                :src="require('@/assets/img/x.svg')"
+                height="29"
+                width="34"
+            />
           </div>
-        </v-card>
-        <div class="d-flex likeButtonSet">
+          <div class="d-flex align-center justify-center rounded-circle btn-shadow mx-7" 
+                style="width:72px;height:72px"
+                @click="like"
+                >
+            <img
+                :src="require('@/assets/img/hart.svg')"
+                height="29"
+                width="34"
+            />
+          </div>
+        </div>
+        <!-- <div class="d-flex likeButtonSet">
           <v-btn width="190" height="70" elevation="5" @click="dislike">
             不喜歡
             <v-icon right size="35" class="ml-4">
@@ -65,7 +105,7 @@
               mdi-heart
             </v-icon>
           </v-btn>
-        </div>
+        </div> -->
       </div>
       <div v-else>沒人可以配對了</div>
     </div>
@@ -98,7 +138,10 @@ export default {
         ageRange:[0,100],
         distanceRange:[0,160],
         sex:-1
-      }
+      },
+      imgConvert:[
+        'woman','man','nonsexual'
+      ]
     };
   },
   created() {
@@ -157,6 +200,9 @@ export default {
     },
     filterColor(){
       return 'filter-color' + this.nowAchieve;
+    },
+    sexIcon(){
+      return require('@/assets/img/'+ (this.imgConvert[this.focusUser.sex] || 'nonsexual') +'.svg')
     }
   },
   methods: {
@@ -279,27 +325,18 @@ export default {
   background: #F2F2F2;
 }
 .match-hobby{
-  display: inline-block;
   background: #E0E0E0;
   border-radius: 40px;
   color: #333333;
-  padding: 0px 8px;
-  margin-right: 8px;
+  word-break: keep-all;
 }
 .hobby-area{
-  height:24px;
   overflow: hidden;
-}
-.fs12{
-    font-size: 12px;
+  height: 36px;
 }
 .match-card{
   position: relative;
   background-color: #BDBDBD !important;
-}
-.pair-img{
-  -webkit-filter:saturate(0.8);
-  
 }
 .filter-div{
   position:absolute;
@@ -359,5 +396,13 @@ export default {
 }
 .filter-card{
   z-index: 1;
+}
+.user-card{
+  border-radius: 20px 20px 20px 20px;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25), 0px 3px 15px rgba(0, 0, 0, 0.05);
+  width: calc(400px - 48px);
+}
+.btn-shadow{
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.05), 0px 2px 8px rgba(0, 0, 0, 0.15);
 }
 </style>
