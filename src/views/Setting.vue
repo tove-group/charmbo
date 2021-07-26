@@ -44,7 +44,7 @@
                     >mdi-chevron-right</v-icon>
                 </div>
             </div>
-            <div class="charmbo-bgcolor-white fs14 pl-8 py-1 charmbo-header-shadow">問題回報</div>
+            <div class="charmbo-bgcolor-white fs14 pl-8 py-1 charmbo-header-shadow">分享與問題回報</div>
             <div class="pl-12 pr-8 py-4">
                 <div class="d-flex justify-space-between align-center py-2">
                     <div class="">分享Charmbo</div>
