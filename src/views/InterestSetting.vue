@@ -27,7 +27,7 @@
                 <div class="d-flex flex-wrap">
                     <div
                         class="py-2 px-4 mx-1 my-1 charmbo-bgcolor-white interest-btn"
-                        :class="itemIsSlected(item)?'btn-active':''"
+                        :class="[btnClass(item)]"
                         v-for="item in interestCategory.items"
                         :key="item"
                         @click="clickItem(item)">
@@ -116,8 +116,11 @@
                 else
                     this.selectedList = this.selectedList.filter(i => i != item);
             },
-            itemIsSlected(item){
-                return this.selectedList.indexOf(item) != -1;
+            btnClass(item){
+                if(this.selectedList.indexOf(item) != -1)
+                    return 'btn-active';
+                if(this.selectedList.length === 10)
+                    return 'btn-disable';
             },
             update(){
                 let param = {
@@ -142,6 +145,10 @@
 .btn-active{
     background: #F8DE71;
     border: 1px solid #F2C611;
+}
+.btn-disable{
+    background: #FAF9F7;
+    border: 1px solid #BDBDBD;
 }
 .page-grid{
     display: grid;
