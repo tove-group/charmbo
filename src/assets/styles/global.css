@@ -27,15 +27,19 @@
 .fs-12{ font-size:12px; }
 .fs-14{ font-size:14px; }
 .fs-16{ font-size:16px; }
+.fs-18{ font-size:18px; }
 .fs-20{ font-size:20px; }
 .fs-24{ font-size:24px; }
 /*text-align*/
 .text-align-left{ text-align: left; }
 .text-align-center{ text-align: center; }
 .text-align-right{ text-align: right; }
+/*radius*/
+.border-radius-24 { border-radius: 24px; }
 /*other*/
 .po-relative { position: relative; }
 .po-absolute { position: absolute; }
+.width-50 { width: 50%; }
 .cursor-pointer { cursor: pointer; }
 .charmbo-header-shadow { box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1); }
 .charmbo-scroll {overflow-y: scroll; }
