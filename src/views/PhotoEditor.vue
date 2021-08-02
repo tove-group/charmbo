@@ -1,22 +1,23 @@
 <template>
-    <div class="max-width ">
-        <div class="photo-editor-bg">
-            <div style="text-align:left;">
-                <v-icon
-                    large
-                    class="photo-editor-icon-back"
-                    color="black"
-                    @click="$router.push({name: 'profile'})"
-                >mdi-chevron-left</v-icon>
-            </div>
-            <div class="rel">
+    <div class="max-width page-photo-editor">
+        <div class="text-align-center py-10 charmbo-header-shadow">
+            <div class="po-relative">
+                <div
+                    class="po-absolute ml-8"
+                    @click="$router.push({name: 'profile'})">
+                    <v-img
+                        :src="require('@/assets/img/back.svg')"
+                        height="56"
+                        width="56"
+                    />
+                </div>
                 <v-avatar size="130">
                     <v-img 
                         :src="getAvatarImg.url"
                         alt="avatar"
-                        class="rounded-circle mx-auto img-avatar cursor-pointer"
+                        class="rounded-circle mx-auto cursor-pointer"
                         @click="onMainPictureClick"
-                        style="border: 5px solid white;"
+                        style="border: 2px solid #F2C611;"
                     ></v-img>
                     <input
                         ref="mainUploader"
@@ -26,41 +27,56 @@
                         @change="uploadMainPicture"
                     >
                 </v-avatar>
+                <div class="d-flex justify-center align-center edit-icon rounded-circle charmbo-bgcolor-primary">
+                    <div class="">
+                        <v-img
+                            :src="require('@/assets/img/pen-white.svg')"
+                            class=""
+                            height="14"
+                            width="14" />
+                    </div>
+                </div>
             </div>
-            <v-text-field
-                class="profile-name"
-                solo
-                dense
-                readonly
-                v-model="user.userName"></v-text-field>
         </div>
-        <p class="fe-text">生活照</p>
-        <div class="photo-aeras">
-            <div 
-                class="photo-editor-photo cursor-pointer" 
-                v-for="(img, index) in getOthersImgs" 
-                :key="img._id" 
-                @click="onOthersPictureClick(index)"
-            >
-                <v-img 
-                    style="width: 145px; height: 195px;"
-                    v-if="img.url"
-					:src="img.url"
-                ></v-img>
-                <v-icon
-                    v-else
-                    class="rounded-circle photo-editor-plus"
-                    size="40"
-                    color="#F2F2F2"
-                >mdi-plus-circle</v-icon>
-                <input
-                    ref="othersUploader"
-                    class="d-none"
-                    type="file"
-                    accept="image/png, image/jpeg, image/bmp"
-                    @change="uploadOthersPicture"
+        <div class="charmbo-bgcolor-gray">
+            <p class="text-align-center my-6 fs-12 fw-medium charmbo-text-color4">上傳近期的生活照，盡情展現興趣和特質！</p>
+            <div class="d-flex flex-wrap justify-center" @click="selectPictureIdx = -1">
+                <div 
+                    class="photo-editor-photo cursor-pointer ma-2 po-relative"
+                    :class="{'charmbo-bgcolor-chat':img.publicId}"
+                    v-for="(img, index) in getOthersImgs" 
+                    :key="img._id" 
+                    @click.stop="onOthersPictureClick(index)"
                 >
+                    <img 
+                        class="photo-style po-absolute"
+                        :class="{'filter-20':index == selectPictureIdx}"
+                        style="left:0px"
+                        v-if="img.url"
+                        :src="img.url"
+                    >
+                    <v-icon
+                        v-else
+                        class="rounded-circle"
+                        size="54"
+                        color="#F2C611"
+                    >mdi-plus-circle</v-icon>
+                    <v-icon
+                        v-if="selectPictureIdx == index && img.publicId"
+                        size="54"
+                        color="#FFFFFF"
+                    >mdi-close-circle</v-icon>
+                    <input
+                        ref="othersUploader"
+                        class="d-none"
+                        type="file"
+                        accept="image/png, image/jpeg, image/bmp"
+                        @change="uploadOthersPicture"
+                    >
+                </div>                
             </div>
+
+
         </div>
     </div>
 </template>
@@ -145,84 +161,73 @@
                     index: this.selectPictureIdx,
                 }
                 await this.$store.dispatch('actionUploadOthersPicture', data);
+                this.selectPictureIdx = -1
                 
 			},
+            removePicture(index){
+                console.log('remove index:',index)
+                if(this.getOthersImgs && 0 <= index && index < 4 && this.getOthersImgs[index].publicId) {
+                    const data = {
+                        type: "OTHERS",
+                        publicId: this.getOthersImgs[index].publicId,
+                    }
+                    this.$store.dispatch('actionRemovePicture', data).then(()=>{
+                        this.selectPictureIdx = -1;
+                        Object.assign(this.getOthersImgs[index],{publicId: null, url: null})
+                    })
+                }
+            },
 			onMainPictureClick() {
 				this.$refs.mainUploader.click();
 			},
             onOthersPictureClick(i) {
-                this.selectPictureIdx = i
-                this.$refs.othersUploader[this.selectPictureIdx].click();
+                if(!this.getOthersImgs[i].url){
+                    this.selectPictureIdx = i
+                    this.$refs.othersUploader[i].click();
+                    return ;
+                }
+                if(this.selectPictureIdx == i)
+                    this.removePicture(i)
+                else
+                    this.selectPictureIdx = i
             },
         }
     }
 </script>
 <style>
-.photo-editor-bg{
-    /* position: fixed; */
-    height: 287px;
-    left: 0px;
-    right: 0px;
-    top: 44px;
-
-    background: #F2F2F2;
-    border-radius: 2px;
-    text-align: center;
-
-}
-.profile-name{
-    /* display: flex; */
-    /* flex-direction: row; */
-    justify-content: center;
-    text-align: center;
-    /* align-items: center; */
-    display: inline-block;
-    padding: 4px 24px;
-    margin: 10px auto;
-    /* position: absolute; */
-    min-width: 117px;
-    height: 30px;
-    /* left: calc(50% - 117px/2); */
-
-    background: #FFFFFF;
-}
-.rel{
-    position: relative;
-    width: 130px;
-    height: 130px;
-    margin: 0px auto;
-}
-.img-avatar{
-    position:absolute;
-}
-.fe-text{
-    margin: -40px auto 0 auto;
-    text-align: center;
-}
-.photo-aeras{
-    width: 311px;
-    margin: 10px auto 0 auto;
-}
-.cursor-pointer{
-    cursor: pointer;
-}
-.photo-editor-icon-back{
-    margin:30px 30px 0px 30px
-}
 .photo-editor-photo{
     display: inline-block;
-    width: 145px;
-    height: 195px;
-    background: #E0E0E0;
-    border: 1px solid #BDBDBD;
+    height: 212px;
+    width: 148px;
+    border: 1px solid #D6D5D1;
     box-sizing: border-box;
-    border-radius: 8px;
     vertical-align: middle;
-    line-height: 195px;
+    line-height: 212px;
     text-align: center;
-    margin:5px
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    border-radius: 20px;
 }
-.photo-editor-plus{
-    /* border: 1px solid #BDBDBD; */
+.photo-style{
+    width: 148px;
+    top: 50%;
+    transform: translateY(-50%);
+    /* border-radius: 20px; */
+}
+.edit-icon{
+    position:absolute;
+    width: 30px;
+    height: 30px;
+    left: calc(50% + 30px);
+    top: 100px;
+}
+.page-photo-editor{
+    display: grid;
+    height: 100vh;
+    grid-template-rows: auto 1fr;
+    gap:1px;
+}
+.filter-20{
+    filter: grayscale(80%);
 }
 </style>
