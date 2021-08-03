@@ -151,22 +151,38 @@
                     </charmbo-botton>
                 </div>
             </div>
-            <user-info-dialog :user="user" :dialog.sync="infoDialog"></user-info-dialog>
+            <v-dialog
+                v-model="infoDialog"
+                content-class="user-dialog"
+                overlay-color="#000000"
+                overlay-opacity="0.6"
+            >
+                <user-detail-card :user="user"></user-detail-card>
+                <div class="d-flex align-center justify-center rounded-circle charmbo-bgcolor-white mx-auto my-8"
+                        style="width:48px;height:48px"
+                        @click="infoDialog = false">
+                    <img
+                        :src="require('@/assets/img/charmbo-x.svg')"
+                        height="16"
+                        width="16"
+                    />
+                </div>
+            </v-dialog>
         </div>
         <footer-bar activeTab="profile"></footer-bar>
     </div>
 </template>
 <script>
     import FooterBar from '../components/Footer.vue';
-    import UserInfoDialog from '../components/UserInfoDialog.vue';
     import CharmboBotton from '@/components/CharmboBotton.vue';
     import CharmboSelect from '@/components/CharmboSelect.vue';
+    import UserDetailCard from '@/components/UserDetailCard.vue';
     export default {
         components: {
             FooterBar,
-            UserInfoDialog,
             CharmboBotton,
-            CharmboSelect
+            CharmboSelect,
+            UserDetailCard
         },
         data(){
             return {

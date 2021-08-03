@@ -14,6 +14,8 @@
 .charmbo-text-color4{ color:#A9A8A5; }
 .charmbo-text-color5{ color:#FFFFFF; }
 .charmbo-text-color6{ color:#D6D5D1; }
+.charmbo-text-color7{ color:#F2F2F2; }
+.charmbo-text-color8{ color:#94740F; }
 /*font-weight*/
 .fw-thin{ font-weight:100; }
 .fw-extra-light{ font-weight:200; }
@@ -36,6 +38,8 @@
 .text-align-center{ text-align: center; }
 .text-align-right{ text-align: right; }
 /*radius*/
+.border-radius-8 { border-radius: 8px; }
+.border-radius-20 { border-radius: 20px; }
 .border-radius-24 { border-radius: 24px; }
 /*other*/
 .po-relative { position: relative; }
@@ -56,4 +60,9 @@
     box-shadow: none;
     align-self: flex-end;
     border-radius: 20px 20px 0px 0px;
+}
+.v-dialog.user-dialog{
+    margin-left: 16px;
+    margin-right: 16px;
+    box-shadow: none;
 }
