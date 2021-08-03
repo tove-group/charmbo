@@ -7,7 +7,7 @@
         </div>
         <div class="pa-4">
             <div class="d-flex justify-space-between align-center">
-            <div class="fs-24 fw-black">{{ user.userName}}123</div>
+            <div class="fs-24 fw-black">{{ user.userName}}</div>
             <div><v-img
                 contain
                 :src="sexIcon"
