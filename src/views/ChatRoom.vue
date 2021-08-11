@@ -1,11 +1,15 @@
 <template>
     <div class="page-chatroom max-width message-container charmbo-bgcolor-gray">
-        <div v-if="showScrollBtn" class="scroll-btn">
-            <v-icon
+        <div v-if="showScrollBtn" @click="scrollToEnd" class="scroll-btn">
+            <!-- <v-icon
                 size="40"
-                @click="scrollToEnd"
                 >mdi-arrow-down-bold-circle
-            </v-icon>
+            </v-icon> -->
+            <v-img
+                    :src="require('../assets/img/chatroom/end.svg')"
+                    height="40"
+                    width="40"
+                />
         </div>
         <div class="charmbo-header-shadow d-flex justify-space-between charmbo-bgcolor-white px-8 py-4">
             <div @click="$router.push({ name: 'chatList' })">

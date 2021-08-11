@@ -2,7 +2,9 @@ module.exports = {
     publicPath: process.env.NODE_ENV === 'production'
         ? '/charmbo/'
         : '/',
-
+    pwa: {
+        themeColor: '#F2C611',
+    },
     // module: {
     //     rules:[
     //         {
