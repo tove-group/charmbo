@@ -8,12 +8,11 @@
         <div class="pa-4">
             <div class="d-flex justify-space-between align-center">
             <div class="fs-24 fw-black">{{ user.userName}}</div>
-            <div><v-img
-                contain
-                :src="sexIcon"
-            ></v-img></div>
+            <div>
+                <component class="charmbo-color-no-achieve" :is="sexIcon"></component>
             </div>
-            <div class="d-flex fs-12 my-1">
+            </div>
+            <div class="d-flex fs-12 my-1 charmbo-color-no-achieve">
                 <div class="mr-4">{{age}}</div>
                 <div class="mr-4">{{horoscope}}</div>
                 <div class="">{{user.job}}</div>
@@ -61,16 +60,24 @@
 </template>
 
 <script>
+import iconWoman from '@/components/icons/woman.vue';
+import iconMan from '@/components/icons/man.vue';
+import iconNonSexual from '@/components/icons/nonsexual.vue';
 export default {
     props: {
         user: {
             type:Object,
         },
     },
+    components:{
+        iconWoman,
+        iconMan,
+        iconNonSexual
+    },
     data(){
         return {
             imgConvert:[
-            'woman','man','nonsexual'
+                'iconWoman','iconMan','iconNonSexual'
             ]
         }
     },
@@ -102,7 +109,7 @@ export default {
             return '秘密';
         },
         sexIcon(){
-            return require('@/assets/img/'+ (this.imgConvert[this.user.sex] || 'nonsexual') +'.svg')
+            return this.imgConvert[this.user.sex] || 'iconNonSexual'
         },
         interestlist(){
             if(this.user.interestlist.length === 0)
@@ -127,10 +134,11 @@ export default {
 
 <style scoped>
 .match-hobby{
-    background: #E0E0E0;
     border-radius: 40px;
-    color: #333333;
+    color: #C69926;
     word-break: keep-all;
+    border: 1px solid #C69926;
+    box-sizing: border-box;
 }
 hr{
     border: 1px solid #F2F2F2;

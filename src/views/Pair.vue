@@ -41,13 +41,12 @@
             ></v-img>
           </div>
           <div class="d-flex justify-space-between pt-3 px-4">
-            <div class="fs-24">{{ focusUser.userName}}</div>
-            <div><v-img
-              contain
-              :src="sexIcon"
-            ></v-img></div>
+            <div class="fs-24 fw-black">{{ focusUser.userName}}</div>
+            <div>
+              <component class="charmbo-color-no-achieve" :is="sexIcon"></component>
+            </div>
           </div>
-          <div class="d-flex fs-12 px-4">
+          <div class="d-flex fs-12 px-4 charmbo-color-no-achieve">
             <div class="mr-4">{{age}}</div>
             <div class="mr-4">{{horoscope}}</div>
             <div class="">{{focusUser.job}}</div>
@@ -116,12 +115,18 @@
 import UserInfoDialog from '../components/UserInfoDialog.vue';
 import FooterBar from '../components/Footer.vue';
 import FilterCard from '../components/FilterCard.vue';
+import iconWoman from '@/components/icons/woman.vue';
+import iconMan from '@/components/icons/man.vue';
+import iconNonSexual from '@/components/icons/nonsexual.vue';
 import { debounce } from "lodash";
 export default {
   components:{
     UserInfoDialog,
     FooterBar,
-    FilterCard
+    FilterCard,
+    iconWoman,
+    iconMan,
+    iconNonSexual
   },
   data() {
     return {
@@ -140,7 +145,7 @@ export default {
         sex:-1
       },
       imgConvert:[
-        'woman','man','nonsexual'
+        'iconWoman','iconMan','iconNonSexual'
       ]
     };
   },
@@ -202,7 +207,7 @@ export default {
       return 'filter-color' + this.nowAchieve;
     },
     sexIcon(){
-      return require('@/assets/img/'+ (this.imgConvert[this.focusUser.sex] || 'nonsexual') +'.svg')
+      return this.imgConvert[this.focusUser.sex] || 'iconNonSexual'
     }
   },
   methods: {
@@ -325,14 +330,15 @@ export default {
   background: #F2F2F2;
 }
 .match-hobby{
-  background: #E0E0E0;
   border-radius: 40px;
-  color: #333333;
+  color: #C69926;
   word-break: keep-all;
+  border: 1px solid #C69926;
+  box-sizing: border-box;
 }
 .hobby-area{
   overflow: hidden;
-  height: 36px;
+  height: 38px;
 }
 .match-card{
   position: relative;
