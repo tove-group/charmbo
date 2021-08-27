@@ -84,8 +84,14 @@
                     >
                     </v-img>
                     </v-card>
-                    <div @click="imgDialog = false" class="text-align-center mt-8">
-                        <charmbo-botton outline>繼續聊天</charmbo-botton>
+                    <div class="d-flex align-center justify-center rounded-circle charmbo-bgcolor-white mx-auto my-8"
+                        style="width:48px;height:48px"
+                        @click="imgDialog = false">
+                        <img
+                            :src="require('@/assets/img/charmbo-x.svg')"
+                            height="16"
+                            width="16"
+                        />
                     </div>
                 </v-dialog>
                 <v-dialog
@@ -214,14 +220,12 @@ import { debounce } from "lodash";
 import OptionDialog from '@/components/ChatroomOptionDialog.vue';
 import UserInfoDialog from '@/components/UserInfoDialog.vue';
 import CharmboMessage from '@/components/CharmboMessage.vue';
-import CharmboBotton from '@/components/CharmboBotton.vue';
 export default {
     components: {
         InfiniteLoading,
         OptionDialog,
         UserInfoDialog,
         CharmboMessage,
-        CharmboBotton
     },
     data() {
         return {
