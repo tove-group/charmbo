@@ -40,22 +40,32 @@
               :src="getImg(focusUser)"
             ></v-img>
           </div>
-          <div class="d-flex justify-space-between pt-3 px-4">
-            <div class="fs-24 fw-black">{{ focusUser.userName}}</div>
-            <div>
-              <component class="charmbo-color-no-achieve" :is="sexIcon"></component>
+          <div @click.stop="infoDialog = true" >
+            <div class="d-flex justify-space-between pt-3 px-4 po-relative">
+              <div class="fs-24 fw-black">{{ focusUser.userName}}</div>
+              <div class="charmbo-bgcolor-white rounded-circle d-flex align-center justify-center mt-n8 po-absolute btn-shadow" style="width:40px;height:40px;right: 12px">
+                <div class="information-icon">
+                  <v-img
+                      :src="require('@/assets/img/information.svg')"
+                      height="24"
+                      width="24"
+                  />
+                </div>
+              </div>
             </div>
+            <div class="d-flex fs-12 px-4 charmbo-color-no-achieve">
+              <component class="sex-icon mr-4" :is="sexIcon"></component>
+              <div class="mr-4">{{age}}</div>
+              <div class="mr-4">{{horoscope}}</div>
+              <div class="">{{focusUser.job}}</div>
+              <div class="ml-auto">距離幾公里</div>
+            </div>
+            <div class="px-4 pt-1 hobby-area d-flex flex-wrap">
+              <div v-for="(hobby, index) in focusUser.interestlist" class="match-hobby px-3 py-1 mr-2 mb-2" :key="index" :class="[nowColor]">{{hobby}}</div>
+            </div>
+            <div class="pb-5"></div>
           </div>
-          <div class="d-flex fs-12 px-4 charmbo-color-no-achieve">
-            <div class="mr-4">{{age}}</div>
-            <div class="mr-4">{{horoscope}}</div>
-            <div class="">{{focusUser.job}}</div>
-            <div class="ml-auto">距離幾公里</div>
-          </div>
-          <div class="px-4 pt-1 hobby-area d-flex flex-wrap">
-            <div v-for="(hobby, index) in focusUser.interestlist" class="match-hobby px-3 py-1 mr-2 mb-2" :key="index" :class="[nowColor]">{{hobby}}</div>
-          </div>
-          <div class="pb-5"></div>
+
           <user-info-dialog :user="focusUser" :dialog.sync="infoDialog"></user-info-dialog>
           <!-- <v-btn icon style="float:right;" @click.stop="infoDialog = true">
             <v-icon color="white">mdi-format-list-bulleted</v-icon>
@@ -410,5 +420,13 @@ export default {
 }
 .btn-shadow{
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.05), 0px 2px 8px rgba(0, 0, 0, 0.15);
+}
+.information-icon{
+  height: 24px;
+  width: 24px;
+}
+.sex-icon{
+  height: 16px;
+  width: 16px;
 }
 </style>
