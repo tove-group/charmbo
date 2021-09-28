@@ -66,7 +66,7 @@
             <div class="pb-5"></div>
           </div>
 
-          <user-info-dialog :user="focusUser" :dialog.sync="infoDialog"></user-info-dialog>
+          <user-info-dialog :user="focusUser" :dialog.sync="infoDialog" :like="like" :dislike="dislike"></user-info-dialog>
           <!-- <v-btn icon style="float:right;" @click.stop="infoDialog = true">
             <v-icon color="white">mdi-format-list-bulleted</v-icon>
           </v-btn> -->
@@ -235,6 +235,7 @@ export default {
       return item.pictures.main.url;
     },
     like() {
+      this.infoDialog = false
       this.$store
         .dispatch('actionPairLike', { likeId: this.focusUser._id })
         .then(() => {
@@ -242,6 +243,7 @@ export default {
         });
     },
     dislike() {
+      this.infoDialog = false
       this.$store
         .dispatch('actionPairDislike', { dislikeId: this.focusUser._id })
         .then(() => {

@@ -43,7 +43,7 @@
                 </div>    
             </div>
             <hr class="my-2">
-            <div class="d-flex align-center justify-center mb-10 mt-7">
+            <div class="d-flex align-center justify-center mb-3 mt-7">
                 <div class="d-flex align-center justify-center mr-1"
                         style="width:16px;height:16px"
                     >
