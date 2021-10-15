@@ -54,5 +54,7 @@ export default {
 .disable{
     color: #A9A8A5;
     background: #FAF9F7;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 32px;
 }
 </style>

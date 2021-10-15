@@ -49,14 +49,14 @@
                 <div class="text-center">
                     <div class="my-15 fs-20 font-weight fw-semi-bold">發揮你的魅力，<br>尋找更多對象吧！</div>
                     <div>
-                        <charmbo-botton @click="$router.push({name: 'profile'})">
+                        <charmbo-button @click="$router.push({name: 'profile'})">
                             <div class="fs-16 fw-semi-bold">增添個人魅力</div>
-                        </charmbo-botton>
+                        </charmbo-button>
                     </div>
                     <div class="mt-6">
-                        <charmbo-botton outline @click="$router.push({name: 'pair'})">
+                        <charmbo-button outline @click="$router.push({name: 'pair'})">
                             <div class="fs-16 fw-semi-bold">繼續尋找對象</div>
-                        </charmbo-botton>
+                        </charmbo-button>
                     </div>
                 </div>
             </div>
@@ -73,13 +73,13 @@
 <script>
 import RoomItem from '@/components/RoomItem.vue'
 import FooterBar from '@/components/Footer.vue';
-import CharmboBotton from '@/components/CharmboBotton.vue';
+import CharmboButton from '@/components/CharmboButton.vue';
 import LottieAnimation from 'lottie-web-vue';
 export default {
     components:{
         RoomItem,
         FooterBar,
-        CharmboBotton,
+        CharmboButton,
         LottieAnimation
     },
     data() {

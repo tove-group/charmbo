@@ -11,12 +11,12 @@
                 @keydown="name = name.substr(0,15)"
                 @blur="name = name.substr(0,15)"
             ></v-text-field>
-            <charmbo-botton :disabled="name ===''" @click="page = 2">
+            <charmbo-button :disabled="name ===''" @click="page = 2">
                 <span class="mx-2">下一步</span>
                 <v-icon
                 color="white"
                 >mdi-arrow-right</v-icon>
-            </charmbo-botton>
+            </charmbo-button>
             </div>
             <div v-if="page === 2" class="page3">
             <div style="text-align:left;margin-bottom: 54px;">
@@ -32,12 +32,12 @@
             <div :class="getSexClass(0)" @click="sex=0">女性</div>
             <div :class="getSexClass(2)" @click="sex=2">其他</div>
             <div style="margin:228px"></div>
-            <charmbo-botton :disabled="sex === -1" @click="page = 3">
+            <charmbo-button :disabled="sex === -1" @click="page = 3">
                 <span class="mx-2">下一步</span>
                 <v-icon
                 color="white"
                 >mdi-arrow-right</v-icon>
-            </charmbo-botton>
+            </charmbo-button>
             </div>
             <div v-if="page === 3" class="page2">
             <div style="text-align:left;margin-bottom: 154px;">
@@ -77,12 +77,12 @@
                 ></v-date-picker>
             </v-menu>
             <div style="margin:194px"></div>
-            <charmbo-botton :disabled="!hasDate" @click="page = 4">
+            <charmbo-button :disabled="!hasDate" @click="page = 4">
                 <span class="mx-2">下一步</span>
                 <v-icon
                 color="white"
                 >mdi-arrow-right</v-icon>
-            </charmbo-botton>
+            </charmbo-button>
             </div>
             <div v-if="page === 4" class="page4">
             <div style="text-align:left;margin-bottom: 203px;">
@@ -102,12 +102,12 @@
                 v-model="location"
             ></v-select>
             <div style="margin:167px"></div>
-            <charmbo-botton :disabled="location == ''" @click="page = 5">
+            <charmbo-button :disabled="location == ''" @click="page = 5">
                 <span class="mx-2">下一步</span>
                 <v-icon
                 color="white"
                 >mdi-arrow-right</v-icon>
-            </charmbo-botton>
+            </charmbo-button>
             </div>
             <div v-if="page === 5" class="page3">
             <div style="text-align:left;margin-bottom: 4px;height:96px;">
@@ -131,21 +131,21 @@
             <div style="margin:94px"></div>
             <!-- <v-btn v-if="true" class="btn" @click="update">下一步</v-btn>
             <v-btn v-else class="btn" disabled>下一步</v-btn> -->
-            <charmbo-botton :disabled="false" @click="update">
+            <charmbo-button :disabled="false" @click="update">
                 <span class="mx-2">下一步</span>
                 <v-icon
                 color="white"
                 >mdi-arrow-right</v-icon>
-            </charmbo-botton>
+            </charmbo-button>
             </div>
         </div>
     </div>
 </template>
 <script>
-import CharmboBotton from '@/components/CharmboBotton.vue';
+import CharmboButton from '@/components/CharmboButton.vue';
     export default {
         components: {
-            CharmboBotton
+            CharmboButton
         },
         data(){
             return {

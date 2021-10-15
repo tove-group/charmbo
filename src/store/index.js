@@ -559,5 +559,32 @@ export default new Vuex.Store({
                 })
             });
         },
+        actionReportUser({state},data){
+            return new Promise((resolve, reject) => {
+                let url = window.API_HOST + '/friendlists/report';
+                let options = {
+                    headers:{
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': 'Bearer ' + state.userinfo.token.token
+                    }
+                };
+                let formData = new FormData();
+                data.files.forEach(file => {
+                    formData.append('images', file);
+                })
+                formData.append('accused', data.accused);
+                formData.append('reason', data.reason);
+                formData.append('detail', data.detail);
+                axios.post(url, formData, options).then(response => {
+                    if (response.status === 200) {
+                        resolve(response);
+                    } else {
+                        reject(response);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
+            });
+        },
     }
 });

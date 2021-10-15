@@ -43,14 +43,14 @@
                 </div>
                 <div class="d-flex justify-center py-3">
                     <div class="mx-2">
-                        <charmbo-botton outline @click="$router.push({name: 'setting'})">
+                        <charmbo-button outline @click="$router.push({name: 'setting'})">
                             <div class="fs-16 fw-semi-bold">設定</div>
-                        </charmbo-botton>
+                        </charmbo-button>
                     </div>
                     <div class="mx-2">
-                        <charmbo-botton @click="infoDialog = true">
+                        <charmbo-button @click="infoDialog = true">
                             <div class="fs-16 fw-semi-bold">檔案預覽</div>
-                        </charmbo-botton>
+                        </charmbo-button>
                     </div>
                 </div>
             </div>
@@ -142,13 +142,13 @@
                     </div>
                 </div>
                 <div class="text-center mt-8">
-                    <charmbo-botton v-if="!isEdit" @click="isEdit = true">
+                    <charmbo-button v-if="!isEdit" @click="isEdit = true">
                         <div class="fs-16 fw-semi-bold">更改</div>
-                    </charmbo-botton>
+                    </charmbo-button>
                     <span v-if="isEdit && showClearAll" class="fs-16 fw-semi-bold mr-5 charmbo-color-primary" @click="clearAll">全部清除</span>
-                    <charmbo-botton v-if="isEdit" @click="isEdit = false">
+                    <charmbo-button v-if="isEdit" @click="isEdit = false">
                         <div class="fs-16 fw-semi-bold" @click="updateAll">確認</div>
-                    </charmbo-botton>
+                    </charmbo-button>
                 </div>
             </div>
             <v-dialog
@@ -174,13 +174,13 @@
 </template>
 <script>
     import FooterBar from '../components/Footer.vue';
-    import CharmboBotton from '@/components/CharmboBotton.vue';
+    import CharmboButton from '@/components/CharmboButton.vue';
     import CharmboSelect from '@/components/CharmboSelect.vue';
     import UserDetailCard from '@/components/UserDetailCard.vue';
     export default {
         components: {
             FooterBar,
-            CharmboBotton,
+            CharmboButton,
             CharmboSelect,
             UserDetailCard
         },

@@ -73,7 +73,7 @@
                         accept="image/png, image/jpeg, image/bmp"
                         @change="uploadOthersPicture"
                     >
-                </div>                
+                </div>
             </div>
 
 

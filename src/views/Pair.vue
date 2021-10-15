@@ -66,7 +66,7 @@
             <div class="pb-5"></div>
           </div>
 
-          <user-info-dialog :user="focusUser" :dialog.sync="infoDialog" :like="like" :dislike="dislike"></user-info-dialog>
+          <user-info-dialog :user="focusUser" :dialog.sync="infoDialog" @like="like" @dislike="dislike"></user-info-dialog>
           <!-- <v-btn icon style="float:right;" @click.stop="infoDialog = true">
             <v-icon color="white">mdi-format-list-bulleted</v-icon>
           </v-btn> -->
