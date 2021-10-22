@@ -29,7 +29,7 @@
                 >解除好友</div>
                 <v-divider></v-divider>
                 <div class="option-btn color-danger"
-                    @click="optionType = 2"
+                    @click="report"
                 >檢舉</div>
             </v-card>
             <v-card v-if="showUnfriendList" class="rounded-lg">
@@ -47,7 +47,7 @@
                     <v-divider></v-divider>
                 </div>
             </v-card>
-            <v-card v-if="showReportList" class="rounded-lg">
+            <!-- <v-card v-if="showReportList" class="rounded-lg">
                 <div class="text-color-2 reason-title">可以告訴我們檢舉的原因嗎？</div>
                 <div v-for="(item, index) in chatRoomOptionReason2" :key="index">
                     <div v-if="item.value != -1" @click.stop="setReason(item.value)" class="reason-btn text-color-1">{{item.text}}</div>
@@ -59,7 +59,7 @@
                     </div>
                     <v-divider></v-divider>
                 </div>
-            </v-card>
+            </v-card> -->
             <v-card v-if="otherOption" class="rounded-lg">
                 <div class="text-color-2 reason-title">可以告訴我們其他的原因嗎？</div>
                     <div class="d-flex justify-space-between pb-3">
@@ -85,6 +85,8 @@
             </v-card>
             <!-- </template> -->
         </v-dialog>
+        <option-dialog :dialogOpen.sync="reportOptionsDialog" title='可以告訴Charmbo檢舉的原因嗎？' :options="reportOptions" @optionCancel="optionCancel" @optionClick="reportOptionClick" ></option-dialog>
+        <report-dialog :dialogOpen.sync="reportDetailDialog" @sent="handleReportSent"></report-dialog>
         <v-dialog
             v-model="confirmDialog"
             max-width="350"
@@ -134,8 +136,12 @@
     </div>
 </template>
 <script>
+    import OptionDialog from '@/components/dialog/Option'
+    import ReportDialog from '@/components/dialog/Report'
     export default {
         components: {
+            OptionDialog,
+            ReportDialog
         },
         data(){
             return {
@@ -159,13 +165,29 @@
                     {value:9,text:"傳送勒索、暴力、威脅、犯罪及其他危險訊息"},
                     {value:-1,text:"其他"}
                 ],
+                reportOptions:[
+                    { key: 1, text: '該用戶從事商業行為(銷售、廣告等...)'},
+                    { key: 2, text: '此人盜取我或他人的照片及資料'},
+                    { key: 3, text: '詐騙'},
+                    { key: 4, text: '未經許可傳送妨害風化照片'},
+                    { key: 5, text: '未成年使用者'},
+                    { key: 6, text: '散布軟體病毒或類似惡意的電腦程式語言、檔案或程式'},
+                    { key: 7, text: '有令人不舒服的訊息、照片、自我介紹等'},
+                    { key: 8, text: '散布任何受著作權、商標保護的內容或其他相關資訊'},
+                    { key: 9, text: '傳送勒索、暴力、威脅、犯罪及其他危險訊息'},
+                    { key: -1, text: '其他'}
+                ],
                 otherOption:false,
                 optionDialog:false,
                 confirmDialog:false,
                 alertDialog:false,
                 otherReason:"",
                 countdown: 3,
-                images:[]
+                images:[],
+                reportOptionsDialog: false,
+                reportDetailDialog: false,
+                reportOptionSelect: null,
+                param:{},
             }
         },
         computed:{
@@ -217,13 +239,17 @@
                 this.confirmDialog = true;
             },
             sent(){
-                let param={
-                    optionType: this.optionType,
-                    reason: this.reason,
-                    otherReason: this.otherReason,
-                    images:this.images
+                if(this.optionType === 2){
+                    this.$emit('sentReport',this.param);
+                } else {
+                    const param={
+                        optionType: this.optionType,
+                        reason: this.reason,
+                        otherReason: this.otherReason,
+                        images:this.images
+                    }
+                    this.$emit('sentReport',param);
                 }
-                this.$emit('sentReport',param);
             },
             sentOK(){
                 this.confirmDialog = false;
@@ -240,7 +266,29 @@
             alertOK(){
                 this.alertDialog = false;
                 this.$router.push({ name: 'chatList' })
-            }
+            },
+            report(){
+                this.optionType = 2
+                this.optionDialog = false
+                this.reportOptionsDialog = true
+            },
+            reportOptionClick(option){
+                this.reportOptionSelect = option.key
+                this.reportDetailDialog = true
+            },
+            handleReportSent(reportData){
+                this.reportDetailDialog = false
+                this.param = {
+                    optionType: this.optionType,
+                    files: reportData.files,
+                    reason: this.reportOptionSelect,
+                    detail: reportData.text
+                }
+                this.confirmDialog = true
+            },
+            optionCancel(){
+                this.cancel()
+            },
         }
     }
 </script>

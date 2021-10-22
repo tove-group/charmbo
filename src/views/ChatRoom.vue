@@ -549,13 +549,33 @@ export default {
             this.imgDialog = true;
             this.selectedImg = img;
         },
-        sentReport(param){
-            Object.assign(param,{deleteId: this.storeReceiver._id})
-            console.log(param);
+        sentReport({ optionType , ...param}){
+            // Object.assign(param,{deleteId: this.storeReceiver._id})
+            console.log('optionType:',optionType,'param: ',param);
             //call api
-            this.$store.dispatch('actionUnfriend', param).then(() => {
-            });
-            this.$refs.optionDialog.sentOK();
+
+            if(optionType === 2){
+                Object.assign(param, {accused: this.storeReceiver._id})
+                console.log('param report: ', param)
+                this.$store.dispatch('actionReportUser', param)
+                    .then(() => {
+                        this.$refs.optionDialog.sentOK();
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                const unfriendParam = {
+                    deleteId: this.storeReceiver._id,
+                    optionType: 1,
+                    reason: 3, //檢舉
+                    otherReason: param.otherReason
+                }
+                this.$store.dispatch('actionUnfriend', unfriendParam)
+            } else {
+                Object.assign(param,{deleteId: this.storeReceiver._id})
+                this.$store.dispatch('actionUnfriend', param)
+                    .then(() => {});
+                this.$refs.optionDialog.sentOK();
+            }
         },
         openInfoDialog(){
             let vm = this;
